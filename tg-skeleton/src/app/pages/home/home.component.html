@@ -1,0 +1,19 @@
+<div class="product-grid">
+  <div class="product-item" *ngFor="let item of products">
+      <div class="product-image">
+          <img [src]="'../../products/' + item.imageUrl" [alt]="item.name">
+      </div>
+      <h4 class="product-title">{{item.name}}</h4>
+      <p class="product-description">{{item.description}}</p>
+      <div class="product-footer">
+          <span class="product-price"><b>{{item.price}} ₽</b></span>
+          <button class="add-button" (click)="add(item)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+              Добавить
+          </button>
+      </div>
+  </div>
+</div>
+<button class="add-button" (click)="makePayment()">
+  <span>Оплатить</span> {{totalPrice | async}}
+</button>

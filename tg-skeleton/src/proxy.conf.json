@@ -1,0 +1,8 @@
+{
+  "/api": {
+    "target": "https://api.yookassa.ru",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
