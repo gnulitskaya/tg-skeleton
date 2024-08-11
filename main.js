@@ -98,12 +98,13 @@ async function createPayment(price) {
 
     return response.data;
 }
+
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log(`webhook`);
     
     // Check if the event is a payment.succeeded
-    if (eventData.event === 'payment.succeeded') {
+    if (eventData?.event === 'payment.succeeded') {
         const paymentId = eventData.data.id;
         const amount = eventData.data.amount.value;
         const currency = eventData.data.amount.currency;
@@ -122,7 +123,7 @@ process.once('SIGTERM', () => bot.stop('SIGTERM'))
 // Start your Express server
 const PORT = 8443;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
 
 bot.launch();
