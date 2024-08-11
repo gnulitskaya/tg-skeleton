@@ -1,17 +1,34 @@
-<div class="product-grid">
-  <div class="product-item" *ngFor="let item of products">
+
+<div>
+  <ul class="nav nav-tabs">
+    <li class="nav-item" *ngFor="let category of categories" (click)="selectCategory(category.id)"
+      [class.active]="selectedCategory === category.id">
+      {{ category.name }}
+    </li>
+  </ul>
+
+  <div *ngFor="let category of categories" [hidden]="selectedCategory !== category.id">
+    <!-- <h2>{{ category.name }}</h2>
+    <div *ngFor="let product of category.products">
+      <h4>{{ product.name }}</h4>
+      <p>{{ product.description }}</p>
+      <p>Цена: {{ product.price | currency }}</p>
+      <p>Доступные размеры: {{ product.available_sizes ? product.available_sizes.join(', ') : 'Нет' }}</p>
+    </div> -->
+    <div class="product-item" *ngFor="let product of category.products">
       <div class="product-image">
-          <img [src]="'../../products/' + item.imageUrl" [alt]="item.name">
+          <img [src]="product.imageUrl" [alt]="product.name">
       </div>
-      <h4 class="product-title">{{item.name}}</h4>
-      <p class="product-description">{{item.description}}</p>
+      <h4 class="product-title">{{product.name}}</h4>
+      <p class="product-description">{{product.description}}</p>
       <div class="product-footer">
-          <span class="product-price"><b>{{item.price}} ₽</b></span>
-          <button class="add-button" (click)="add(item)">
+          <span class="product-price"><b>{{product.price}} ₽</b></span>
+          <button class="add-button" (click)="add(product)">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
               Добавить
           </button>
       </div>
+  </div>
   </div>
 </div>
 <button class="add-button" (click)="makePayment()">

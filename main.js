@@ -23,10 +23,18 @@ const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 const bot = new Telegraf(token);
 
 bot.command('start', (ctx) => {
-    ctx.reply(
-        'Заходи в наш интернет магазин по кнопке ниже',
-        Markup.keyboard([Markup.button.webApp('Сделать заказ', webAppUrl)])
+    ctx.reply(`
+👠 Добро пожаловать в мир танцев с ANGELS ONE HEELS!
+
+### 📦 Как заказать?
+1. Нажмите кнопку [ Каталог ] 
+2. Выберите модель обуви и одежду.
+3. Оформите заказ и оплатите.
+4. Ждите доставку прямо к вашей двери!🎉
+        `,
+        Markup.keyboard([Markup.button.webApp('👉 Каталог', webAppUrl)])
     )
+    // ctx.replyWithPhoto({ source: './product1.jpeg' });
 })
 
 bot.on(message('web_app_data'), async (ctx) => {
@@ -39,8 +47,7 @@ bot.on(message('web_app_data'), async (ctx) => {
     if (price) {
         await createPayment(price)
             .then(payment => {
-                ctx.reply(`Вы купили товаров на сумму: ${price} ₽. 
-                    Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}`);
+                ctx.reply(`Вы купили товаров на сумму: ${price} ₽. Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}`);
             })
             .catch(err => {
                 console.error(err);
@@ -74,16 +81,15 @@ async function createPayment(price) {
         'Idempotence-Key': Math.random().toString(36).substring(7),
         'Access-Control-Allow-Origin': 'http://localhost:4200',
         "Access-Control-Allow-Headers" : "Origin,X-Requested-With,Content-Type,Accept",
-        // //   "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-        'Authorization': 'Basic ' + btoa('435225' + ':' + 'test_kKVmfRlLjKWvfXqriLSvam67FigmMu7emcFoE8xa47s')
+        'Authorization': 'Basic ' + btoa('435225' + ':' + 'test_o7wEW2Yo1o3uTzfjibTwXjqciVdVFGf5iUEfoTtl_7o')
     };
 
     const options = {
         headers: headers,
         auth: {
             username: '435225',
-            password: 'test_kKVmfRlLjKWvfXqriLSvam67FigmMu7emcFoE8xa47s'
+            password: 'test_o7wEW2Yo1o3uTzfjibTwXjqciVdVFGf5iUEfoTtl_7o'
         }
     };
 
@@ -92,21 +98,25 @@ async function createPayment(price) {
     return response.data;
 }
 
-app.post('/webhook', express.json(), (req, res) => {
-    const event = req.body;
+// app.post('/webhook', express.json(), (req, res) => {
+//     const event = req.body;
 
-    // Проверяем, что это событие о успешной оплате
-    if (event.event === 'payment.succeeded') {
-        const paymentId = event.data.id; // ID платежа
-        const amount = event.data.amount.value; // Сумма платежа
+//     // Проверяем, что это событие о успешной оплате
+//     if (event.event === 'payment.succeeded') {
+//         const paymentId = event.data.id; // ID платежа
+//         const amount = event.data.amount.value; // Сумма платежа
 
-        // Отправляем сообщение пользователю бота (если у вас есть ID пользователя)
-        const userId = 'USER_ID'; // Замените на реальный ID пользователя
-        bot.telegram.sendMessage(userId, `Ваш платеж на сумму ${amount} ₽ был успешно обработан. ID платежа: ${paymentId}`);
-    }
+//         // Отправляем сообщение пользователю бота (если у вас есть ID пользователя)
+//         const userId = 'USER_ID'; // Замените на реальный ID пользователя
+//         bot.telegram.sendMessage(userId, `Ваш платеж на сумму ${amount} ₽ был успешно обработан. ID платежа: ${paymentId}`);
+//     }
 
-    // Возвращаем статус 200 OK
-    res.sendStatus(200);
-});
+//     // Возвращаем статус 200 OK
+//     res.sendStatus(200);
+// });
+
+// Enable graceful stop
+// process.once('SIGINT', () => bot.stop('SIGINT'))
+// process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 bot.launch();

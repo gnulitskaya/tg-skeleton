@@ -7,16 +7,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { BusyService } from '../../services/busy.service';
+import { ProductsService } from '../../services/products.service';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatButtonModule],
 })
 export class HomeComponent implements OnInit {
   private addedItems: Product[] = [];
+  categories: any[] = [];
+  selectedCategory: number = 1;
+
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   public products: Product[] = [
     {
@@ -41,22 +46,31 @@ export class HomeComponent implements OnInit {
       imageUrl: "product3.jpeg"
     }
   ]
-  constructor(private tg: TelegramService, 
+  constructor(private tg: TelegramService,
     private paymentService: PaymentService,
     private busyService: BusyService,
-    private route: Router) { 
+    private productsService: ProductsService) {
     this.sendData = this.sendData.bind(this);
   }
 
   ngOnInit() {
-    this.tg.MainButton.setText('Отправить');
+    this.tg.MainButton.setText('Оплатить');
     this.tg.MainButton.show();
     // this.tg.MainButton.onClick(() => {
     //   return this.makePayment();
     // })
-    this.tg.MainButton.onClick(this.sendData)
+    this.tg.MainButton.onClick(this.sendData);
+    this.productsService.getAllCourses()
+      .pipe(
+        tap((data) => {
+          this.categories = data.categories;
+
+          console.log('data', data);
+        })
+      )
+      .subscribe();
   }
-  
+
   add(product: Product): void {
     const alreadyAdded = this.addedItems.find(item => item.id === product.id);
     let newItems: any[] = [];
@@ -81,7 +95,7 @@ export class HomeComponent implements OnInit {
   }
 
   sendData() {
-    this.tg.sendData({price: getTotalPrice(this.addedItems)});
+    this.tg.sendData({ price: getTotalPrice(this.addedItems) });
   }
 
   makePayment() {
@@ -95,19 +109,24 @@ export class HomeComponent implements OnInit {
     // alert(paymentDetails.amount);
 
     this.paymentService.createPayment(paymentDetails)
-    .pipe(
-      tap((data) => {
-        alert('Payment created successfully:');
-        window.location.href = data.confirmation.confirmation_url;
-        // this.route.navigateByUrl(data.confirmation.confirmation_url);
-      }),
-      catchError((err) => {
-        alert('Error creating payment:');
-        this.busyService.idle();
-        return of(null);
-      })
-    ).subscribe();
+      .pipe(
+        tap((data) => {
+          alert('Payment created successfully:');
+          window.location.href = data.confirmation.confirmation_url;
+          // this.route.navigateByUrl(data.confirmation.confirmation_url);
+        }),
+        catchError((err) => {
+          alert('Error creating payment:');
+          this.busyService.idle();
+          return of(null);
+        })
+      ).subscribe();
   }
+
+  selectCategory(category: number): void {
+    this.selectedCategory = category;
+  }
+
 }
 
 const getTotalPrice = (items: Product[] = []): number => {
