@@ -60,6 +60,7 @@ bot.on(message('web_app_data'), async (ctx) => {
 })
 
 async function createPayment(price) {
+    console.log(`createPayment`);
     const paymentData = {
         amount: {
             value: price.toString(),
@@ -100,6 +101,7 @@ async function createPayment(price) {
 
 app.post('/webhook', express.json(), (req, res) => {
     const event = req.body;
+    console.log(`Server webhook`);
 
     // Проверяем, что это событие о успешной оплате
     if (event.event === 'payment.succeeded') {
