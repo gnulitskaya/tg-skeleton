@@ -98,25 +98,25 @@ async function createPayment(price) {
     return response.data;
 }
 
-// app.post('/webhook', express.json(), (req, res) => {
-//     const event = req.body;
+app.post('/webhook', express.json(), (req, res) => {
+    const event = req.body;
 
-//     // Проверяем, что это событие о успешной оплате
-//     if (event.event === 'payment.succeeded') {
-//         const paymentId = event.data.id; // ID платежа
-//         const amount = event.data.amount.value; // Сумма платежа
+    // Проверяем, что это событие о успешной оплате
+    if (event.event === 'payment.succeeded') {
+        const paymentId = event.data.id; // ID платежа
+        const amount = event.data.amount.value; // Сумма платежа
 
-//         // Отправляем сообщение пользователю бота (если у вас есть ID пользователя)
-//         const userId = 'USER_ID'; // Замените на реальный ID пользователя
-//         bot.telegram.sendMessage(userId, `Ваш платеж на сумму ${amount} ₽ был успешно обработан. ID платежа: ${paymentId}`);
-//     }
+        // Отправляем сообщение пользователю бота (если у вас есть ID пользователя)
+        const userId = 'USER_ID'; // Замените на реальный ID пользователя
+        bot.telegram.sendMessage(userId, `Ваш платеж на сумму ${amount} ₽ был успешно обработан. ID платежа: ${paymentId}`);
+    }
 
-//     // Возвращаем статус 200 OK
-//     res.sendStatus(200);
-// });
+    // Возвращаем статус 200 OK
+    res.sendStatus(200);
+});
 
 // Enable graceful stop
-// process.once('SIGINT', () => bot.stop('SIGINT'))
-// process.once('SIGTERM', () => bot.stop('SIGTERM'))
+process.once('SIGINT', () => bot.stop('SIGINT'))
+process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 bot.launch();
