@@ -98,23 +98,21 @@ async function createPayment(price) {
 
     return response.data;
 }
+app.post('/webhook', async (req, res) => {
+    const eventData = req.body;
+    console.log(`webhook`);
+    
+    // Check if the event is a payment.succeeded
+    if (eventData.event === 'payment.succeeded') {
+        const paymentId = eventData.data.id;
+        const amount = eventData.data.amount.value;
+        const currency = eventData.data.amount.currency;
 
-app.post('/webhook', express.json(), (req, res) => {
-    const event = req.body;
-    console.log(`Server webhook`);
-
-    // Проверяем, что это событие о успешной оплате
-    if (event.event === 'payment.succeeded') {
-        const paymentId = event.data.id; // ID платежа
-        const amount = event.data.amount.value; // Сумма платежа
-
-        // Отправляем сообщение пользователю бота (если у вас есть ID пользователя)
-        const userId = 'USER_ID'; // Замените на реальный ID пользователя
-        bot.telegram.sendMessage(userId, `Ваш платеж на сумму ${amount} ₽ был успешно обработан. ID платежа: ${paymentId}`);
+        // Send a message to your Telegram bot
+        await bot.telegram.sendMessage('848481266', `Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.`);
     }
 
-    // Возвращаем статус 200 OK
-    res.sendStatus(200);
+    res.sendStatus(200); // Respond with 200 OK
 });
 
 // Enable graceful stop
