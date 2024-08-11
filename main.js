@@ -119,4 +119,10 @@ app.post('/webhook', express.json(), (req, res) => {
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
+// Start your Express server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
 bot.launch();
