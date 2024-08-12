@@ -3,8 +3,7 @@ FROM ubuntu:20.04
 
 # Установка необходимых пакетов
 RUN apt-get update && \
-    apt-get install -y apache2 openssl && \
-    apt-get clean
+    apt-get install -y apache2 openssl
 
 # Создание каталога для SSL-сертификатов
 # RUN mkdir /etc/apache2/ssl
