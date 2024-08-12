@@ -11,6 +11,7 @@ var corsOptions = {
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
+import http from 'http';
 
 const app = express();
 app.use(cors(corsOptions));
@@ -120,11 +121,15 @@ app.post('/webhook', async (req, res) => {
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
+const server = http.createServer((req, res) => {
+    res.writeHead(200, {"Content-Type": "text/plain"});
+    res.end("huinaaaa!!!!!!")
+})
+
 // Start your Express server
 const PORT = 8443;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
 
 bot.launch();
