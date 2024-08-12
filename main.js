@@ -11,6 +11,7 @@ var corsOptions = {
 import express from 'express';
 import cors from 'cors';
 import axios from 'axios';
+import https from 'https';
 import http from 'http';
 
 const app = express();
@@ -22,7 +23,7 @@ const token  = '7208102281:AAFXC9mcTML2YzMu_N43SgUru6y6F7utFlQ';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 
 const bot = new Telegraf(token);
-
+let port;
 bot.command('start', (ctx) => {
     ctx.reply(`
 👠 Добро пожаловать в мир танцев с ANGELS ONE HEELS!
@@ -121,15 +122,39 @@ app.post('/webhook', async (req, res) => {
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    res.end("huinaaaa!!!!!!")
-})
+var sslCreds = null;
+// sslCreds = {
+//     // uncomment the following code and replace the following paths if you have SSL certificates.
+//     key: fs.readFileSync('/root/key.pem'),
+//     cert: fs.readFileSync('/root/certificate.pem')
+// };
+if (sslCreds) {
+    var server = https.createServer(sslCreds, app);
+    port = 443;
+    http.createServer(function (req, res) {
+        res.writeHead(301, { "Location": "https://" + req.headers['host'].replace('80', '443') + req.url });
+        console.log("http request, will go to >> ");
+        console.log("https://" + req.headers['host'].replace('80', '443') + req.url );
+        res.end();
+    }).listen(80);
+} else {
+    var server = http.createServer(app);
+    port = 80;
+}
+
+server.listen(port, '0.0.0.0',function(){
+    console.log(`Server listening on port `+port);
+});
+
+// const server = http.createServer((req, res) => {
+//     res.writeHead(200, {"Content-Type": "text/plain"});
+//     res.end("huinaaaa!!!!!!")
+// })
 
 // Start your Express server
-const PORT = 8443;
-server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// const PORT = 8443;
+// server.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
+// });
 
 bot.launch();
