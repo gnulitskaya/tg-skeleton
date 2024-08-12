@@ -105,6 +105,8 @@ app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log(`webhook`);
     console.log(req, res);
+
+    await bot.telegram.sendMessage('848481266', `Платеж на сумму успешно обработан.`);
     
     // Check if the event is a payment.succeeded
     if (eventData?.event === 'payment.succeeded') {
