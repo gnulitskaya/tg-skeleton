@@ -132,17 +132,17 @@ if (sslCreds) {
     var server = https.createServer(sslCreds, app);
     port = 443;
     http.createServer(function (req, res) {
-        res.writeHead(301, { "Location": "https://" + req.headers['host'].replace('80', '443') + req.url });
+        res.writeHead(301, { "Location": "https://" + req.headers['host'].replace('8443', '443') + req.url });
         console.log("http request, will go to >> ");
-        console.log("https://" + req.headers['host'].replace('80', '443') + req.url );
+        console.log("https://" + req.headers['host'].replace('8443', '443') + req.url );
         res.end();
-    }).listen(80);
+    }).listen(8443);
 } else {
     var server = http.createServer(app);
-    port = 80;
+    port = 8443;
 }
 
-server.listen(port, 'tgmini.ru',function(){
+server.listen(port, '0.0.0.0',function(){
     console.log(`Server listening on port `+port);
 });
 
