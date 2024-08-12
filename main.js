@@ -127,7 +127,7 @@ const server = http.createServer((req, res) => {
 })
 
 // Start your Express server
-const PORT = 8443;
+const PORT = 443;
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
