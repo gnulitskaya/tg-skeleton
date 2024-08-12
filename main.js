@@ -104,7 +104,7 @@ async function createPayment(price) {
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log(`webhook`);
-    console.log(eventData);
+    console.log(req, res);
     
     // Check if the event is a payment.succeeded
     if (eventData?.event === 'payment.succeeded') {
