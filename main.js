@@ -142,7 +142,7 @@ if (sslCreds) {
     port = 80;
 }
 
-server.listen(port, '80.78.243.90',function(){
+server.listen(port, 'tgmini.ru',function(){
     console.log(`Server listening on port `+port);
 });
 
