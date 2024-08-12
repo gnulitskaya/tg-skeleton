@@ -121,7 +121,7 @@ process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
 // Start your Express server
-const PORT = 8443;
+const PORT = 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
