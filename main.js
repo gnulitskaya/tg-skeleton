@@ -104,7 +104,7 @@ async function createPayment(price) {
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log(`webhook`);
-    console.log('res', res);
+    console.log('req', req);
 
     await bot.telegram.sendMessage('848481266', `Платеж на сумму успешно обработан.`);
     
