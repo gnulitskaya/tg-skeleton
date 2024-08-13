@@ -16,13 +16,14 @@ import fs from 'fs';
 
 const app = express();
 app.use(cors(corsOptions));
-
+app.use(express.json())
 // app.use(cors());
 
 const token  = '7208102281:AAFXC9mcTML2YzMu_N43SgUru6y6F7utFlQ';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 
 const bot = new Telegraf(token);
+
 
 bot.command('start', (ctx) => {
     ctx.reply(`
@@ -103,10 +104,7 @@ async function createPayment(price) {
 
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
-    console.log(`webhook`);
-    console.log('req', req);
-
-    await bot.telegram.sendMessage('848481266', `Платеж на сумму успешно обработан.`);
+    console.log(eventData);
     
     // Check if the event is a payment.succeeded
     if (eventData?.event === 'payment.succeeded') {
