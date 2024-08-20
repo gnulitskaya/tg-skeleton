@@ -50,7 +50,9 @@ export class OrderCheckoutComponent implements OnInit {
   }
 
   sendData() {
-    this.tg.sendData({ form: this.checkoutForm.value, price: this.productsService.totalPrice.value,
+    this.tg.sendData({ 
+      form: this.checkoutForm.value, 
+      price: this.productsService.totalPrice.value,
       chatId: this.tg.chatId
      });
   }
