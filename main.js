@@ -60,25 +60,22 @@ bot.on(message('web_app_data'), async (ctx) => {
         await createPayment(price)
             .then(payment => {
                 ctx.reply(`
-                    Уважаемый(ая) ${fullName},
+Уважаемый(ая) ${fullName},
+Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
 
-                    Спасибо за вашу покупку!
+Вот детали вашей покупки:
 
-                    Мы рады сообщить вам, что ваша заказ был успешно оформлен. Вот детали вашей покупки:
+- Полное имя: ${fullName}
+- Email: ${email}
+- Телефон: ${phone}
+- Адрес: ${address}, ${city}, ${postalCode}
+- Метод оплаты: ${paymentMethod}
+- Комментарий: ${comment}
 
-                    - Полное имя: ${fullName}
-                    - Email: ${email}
-                    - Телефон: ${phone}
-                    - Адрес: ${address}, ${city}, ${postalCode}
-                    - Метод оплаты: ${paymentMethod}
-                    - Комментарий: ${comment}
+Если у вас есть вопросы, не стесняйтесь обращаться к нам.
 
-                    Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
-                    
-                    Если у вас есть вопросы, не стесняйтесь обращаться к нам.
-
-                    С уважением,
-                    Ваша команда Angels One Heels`
+С уважением,
+Ваша команда Angels One Heels`
                 );
             })
             .catch(err => {
