@@ -15,11 +15,13 @@ interface TgButton {
 })
 export class TelegramService {
   private window;
-  tg;
+  tg: any;
+  chatId: any;
   constructor(@Inject(DOCUMENT) private _document: any) {
     this.window = this._document.defaultView;
     this.tg = this.window.Telegram.WebApp;
-    console.log(this.window.Telegram);
+    this.chatId = this.window.Telegram.WebApp.initDataUnsafe.chat.id;
+
   }
 
   get MainButton(): TgButton {

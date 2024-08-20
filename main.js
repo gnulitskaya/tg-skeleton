@@ -42,7 +42,6 @@ bot.command('start', (ctx) => {
 bot.on(message('web_app_data'), async (ctx) => {
 
     const data = ctx.webAppData.data.json();
-    alert(data);
     console.log(data);
 
     const price = data?.price;
