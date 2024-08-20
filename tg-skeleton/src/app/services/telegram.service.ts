@@ -20,8 +20,9 @@ export class TelegramService {
   constructor(@Inject(DOCUMENT) private _document: any) {
     this.window = this._document.defaultView;
     this.tg = this.window.Telegram.WebApp;
-    this.chatId = this.window.Telegram.WebApp.initDataUnsafe.chat?.id;
-
+    this.chatId = this.window.Telegram.WebApp.initDataUnsafe;
+    alert(this.window.Telegram.WebApp.initDataUnsafe.chat);
+    console.log(this.window.Telegram.WebApp.initDataUnsafe);
   }
 
   get MainButton(): TgButton {
