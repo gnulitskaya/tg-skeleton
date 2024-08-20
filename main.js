@@ -42,7 +42,9 @@ bot.command('start', (ctx) => {
 bot.on(message('web_app_data'), async (ctx) => {
 
     const data = ctx.webAppData.data.json();
+    const message = ctx.message;
     console.log('DATA', data);
+    console.log('message', message);
 
     const price = data?.price;
     const chatId = data?.chatId;
