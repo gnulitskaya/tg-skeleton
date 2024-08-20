@@ -138,11 +138,11 @@ app.post('/webhook', async (req, res) => {
     // Check if the event is a payment.succeeded
     if (eventData?.event === 'payment.succeeded') {
         const paymentId = eventData.object.id;
-        const amount = eventData.object.amount.value;
-        const currency = eventData.object.amount.currency;
-
+        // const amount = eventData.object.amount.value;
+        // const currency = eventData.object.amount.currency;
+        const chatId = eventData.metadata.chat_id;
         // Send a message to your Telegram bot
-        await bot.telegram.sendMessage('848481266', 
+        await bot.telegram.sendMessage(chatId, 
 `
 Спасибо за вашу покупку! ID платежа: ${paymentId}
 
