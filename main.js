@@ -140,7 +140,8 @@ app.post('/webhook', async (req, res) => {
         const paymentId = eventData.object.id;
         // const amount = eventData.object.amount.value;
         // const currency = eventData.object.amount.currency;
-        const chatId = eventData.metadata.chat_id;
+        const chatId = eventData.metadata?.chat_id;
+        console.log('chatId', chatId);
         // Send a message to your Telegram bot
         await bot.telegram.sendMessage(chatId, 
 `

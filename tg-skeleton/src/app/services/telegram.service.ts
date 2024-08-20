@@ -21,8 +21,7 @@ export class TelegramService {
     this.window = this._document.defaultView;
     this.tg = this.window.Telegram.WebApp;
     this.chatId = this.window.Telegram.WebApp.initData;
-    alert(this.window.Telegram.WebApp.initData);
-    console.log(this.window.Telegram.WebApp.initData);
+
   }
 
   get MainButton(): TgButton {
