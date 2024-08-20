@@ -42,13 +42,13 @@ bot.command('start', (ctx) => {
 bot.on(message('web_app_data'), async (ctx) => {
 
     const data = ctx.webAppData.data.json();
-    const message = ctx.message;
+    const chatId = ctx.message.chat.id;
     console.log('DATA', data);
     console.log('message', message);
 
     const price = data?.price;
-    const chatId = data?.chatId;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
+    const telegramNick = '@' + ctx.message.chat.username || 'не указан';
     const email = data?.form.email || 'не указан';
     const phone = data?.form.phone || 'не указан';
     const comment = data?.form.comment || 'Нет комментариев';
@@ -58,15 +58,16 @@ bot.on(message('web_app_data'), async (ctx) => {
     const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
-        await createPayment(price)
+        await createPayment(price, chatId)
             .then(payment => {
                 ctx.reply(`
-Уважаемый(ая) ${fullName}, ${chatId}
+Уважаемый(ая) ${fullName}
 Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
 
 Вот детали вашей покупки:
 
 - Полное имя: ${fullName}
+- Ник в Телеграме: ${telegramNick}
 - Email: ${email}
 - Телефон: ${phone}
 - Адрес: ${address}, ${city}, ${postalCode}
@@ -132,7 +133,7 @@ async function createPayment(price, chatId) {
 
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
-    console.log(eventData);
+    console.log('eventData', eventData);
     
     // Check if the event is a payment.succeeded
     if (eventData?.event === 'payment.succeeded') {
