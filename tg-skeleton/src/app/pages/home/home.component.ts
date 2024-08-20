@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from '../../models/product';
+import { Category, Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
 import { TelegramService } from '../../services/telegram.service';
 import { PaymentService } from '../../services/payment.service';
@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, of, tap } from 'rxjs';
 import { BusyService } from '../../services/busy.service';
 import { ProductsService } from '../../services/products.service';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-home',
@@ -18,38 +18,16 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [CommonModule, MatButtonModule],
 })
 export class HomeComponent implements OnInit {
-  private addedItems: Product[] = [];
-  categories: any[] = [];
+  categories: Category[] = [];
   selectedCategory: number = 1;
+  totalCost = 0;
 
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-  public products: Product[] = [
-    {
-      id: 0,
-      name: "Кожаные ботильоны Angels mid",
-      description: "Наш бестселлер с новой высотой каблука 9.5 см",
-      price: 11400,
-      imageUrl: "product1.jpeg"
-    },
-    {
-      id: 1,
-      name: "Ботильоны Grey Snake",
-      description: "Модель из эко-кожи рептилии в светло-сером  оттенке",
-      price: 6200,
-      imageUrl: "product2.jpeg"
-    },
-    {
-      id: 2,
-      name: "Ботфорты из эко-кожи Velour Red",
-      description: "Ботфорты выполнены из мягкой искуственной кожи",
-      price: 9600,
-      imageUrl: "product3.jpeg"
-    }
-  ]
+ 
   constructor(private tg: TelegramService,
     private paymentService: PaymentService,
     private busyService: BusyService,
-    private productsService: ProductsService) {
+    public productsService: ProductsService) {
     this.sendData = this.sendData.bind(this);
   }
 
@@ -71,31 +49,45 @@ export class HomeComponent implements OnInit {
       .subscribe();
   }
 
-  add(product: Product): void {
-    const alreadyAdded = this.addedItems.find(item => item.id === product.id);
-    let newItems: any[] = [];
+  add(product: Product) {
+    product.counter++;
+    this.productsService.updatePurchasedItems(product);
+    this.result();
+  }
 
-    if (alreadyAdded) {
-      newItems = this.addedItems.filter(item => item.id !== product.id);
-    } else {
-      newItems = [...this.addedItems, product];
-    }
-    // console.log('alreadyAdded', alreadyAdded);
-    this.addedItems = newItems;
-    // console.log('addedItems', this.addedItems);
-    if (newItems.length === 0) {
-      this.tg.MainButton.hide();
-    } else {
-      this.tg.MainButton.show();
-      this.totalPrice.next(getTotalPrice(newItems));
-      this.tg.MainButton.setParams({
-        text: `Купить ${this.totalPrice.value} ₽`
-      })
+  remove(product: Product) {
+    if (product.counter > 0) {
+      product.counter--;
+      this.productsService.updatePurchasedItems(product);
+      this.result();
     }
   }
 
+  result() {
+    this.tg.MainButton.show();
+    this.totalPrice.next(this.calculateTotal());
+    this.tg.MainButton.setParams({
+      text: `Купить ${this.totalPrice.value} ₽`
+    })
+    // if (this.totalPrice.value === 0) {
+    //   this.tg.MainButton.hide();
+    // } else {
+
+    // }
+  }
+
+  calculateTotal(): number {
+    this.totalCost = this.categories.reduce((total, category) => {
+      return total + category.products.reduce((catTotal, product) => {
+        return catTotal + (product.price * (product.counter || 0));
+      }, 0);
+    }, 0);
+  
+    return this.totalCost;
+  }
+
   sendData() {
-    this.tg.sendData({ price: getTotalPrice(this.addedItems) });
+    this.tg.sendData({ price: this.totalPrice.value });
   }
 
   makePayment() {
@@ -129,8 +121,8 @@ export class HomeComponent implements OnInit {
 
 }
 
-const getTotalPrice = (items: Product[] = []): number => {
-  return items.reduce((acc, item) => {
-    return acc + item.price;
-  }, 0);
-};
+// const getTotalPrice = (items: Product[] = []): number => {
+//   return items.reduce((acc, item) => {
+//     return acc + item.price;
+//   }, 0);
+// };
