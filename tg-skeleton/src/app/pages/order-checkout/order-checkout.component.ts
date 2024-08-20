@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { TelegramService } from '../../services/telegram.service';
 import { ProductsService } from '../../services/products.service';
 @Component({
@@ -25,7 +25,7 @@ export class OrderCheckoutComponent implements OnInit {
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      telegramNick: ['', Validators.required],
+      // telegramNick: ['', Validators.required],
       comment: [''],
       address: ['', Validators.required],
       city: ['', Validators.required],
@@ -35,7 +35,18 @@ export class OrderCheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tg.MainButton.hide();
     this.tg.MainButton.onClick(this.sendData);
+
+    this.checkoutForm.valueChanges.subscribe(data => {
+      if (this.checkoutForm.valid) {
+        this.tg.MainButton.show();
+        this.tg.MainButton.setParams({
+          text: `Перейти к оплате`
+          // text: `Купить ${this.totalPrice.value} ₽`
+        })
+      }
+    })
   }
 
   sendData() {
@@ -46,11 +57,7 @@ export class OrderCheckoutComponent implements OnInit {
     if (this.checkoutForm.valid) {
       console.log('Форма отправлена', this.checkoutForm.value);
       // Здесь вы можете добавить логику для обработки заказа
-      this.tg.MainButton.show();
-      this.tg.MainButton.setParams({
-        text: `Перейти к оплате`
-        // text: `Купить ${this.totalPrice.value} ₽`
-      })
+
     }
   }
 }

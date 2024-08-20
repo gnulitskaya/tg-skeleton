@@ -177,4 +177,14 @@ $tg-skeleton-theme: mat.define-theme((
 
 :root {
   @include mat.all-component-themes($tg-skeleton-theme);
+  --mdc-outlined-text-field-outline-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-input-text-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-focus-outline-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-label-text-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-focus-label-text-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-error-focus-outline-color: var(--tg-theme-text-color);
+  --mat-select-enabled-trigger-text-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-error-hover-outline-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-hover-outline-color: var(--tg-theme-text-color);
+  --mdc-outlined-text-field-hover-label-text-color: var(--tg-theme-text-color);
 }

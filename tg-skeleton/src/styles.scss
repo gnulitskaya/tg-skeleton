@@ -7,8 +7,6 @@ html {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  color: var(--tg-theme-button-text-color);
-  background-color: var(--tg-theme-bg-color);
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
@@ -26,4 +24,6 @@ html {
 html,
 body {
   height: 100%;
+  color: var(--tg-theme-text-color);
+  background-color: var(--tg-theme-bg-color);
 }

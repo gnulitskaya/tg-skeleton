@@ -24,7 +24,6 @@ const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 
 const bot = new Telegraf(token);
 
-
 bot.command('start', (ctx) => {
     ctx.reply(`
 👠 Добро пожаловать в мир танцев с ANGELS ONE HEELS!
@@ -41,10 +40,10 @@ bot.command('start', (ctx) => {
 })
 
 bot.on(message('web_app_data'), async (ctx) => {
-    // const data = ctx.webAppData.data.json();
-    // console.log(ctx.webAppData.data.text());
-    // ctx.reply(`Вы купили товаров на сумму: ${data?.price} ₽` ?? '')
+
     const data = ctx.webAppData.data.json();
+    alert(data);
+    console.log(data);
 
     const price = data?.price;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
@@ -88,7 +87,7 @@ bot.on(message('web_app_data'), async (ctx) => {
 
 })
 
-async function createPayment(price) {
+async function createPayment(price, chatId) {
     console.log(`createPayment`);
     const paymentData = {
         amount: {
@@ -102,7 +101,8 @@ async function createPayment(price) {
         capture: true,
         description: 'Оплата заказа',
         metadata: {
-            order_id:  Math.random().toString(36).substring(7),
+            order_id: Math.random().toString(36).substring(7),
+            chat_id: chatId
         },
     };
 
@@ -139,7 +139,13 @@ app.post('/webhook', async (req, res) => {
         const currency = eventData.object.amount.currency;
 
         // Send a message to your Telegram bot
-        await bot.telegram.sendMessage('848481266', `Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.`);
+        await bot.telegram.sendMessage('848481266', 
+`
+Спасибо за вашу покупку! ID платежа: ${paymentId}
+
+Мы рады сообщить вам, что ваша заказ был успешно оформлен.
+`);
+// Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.
     }
 
     res.sendStatus(200); // Respond with 200 OK

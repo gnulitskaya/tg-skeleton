@@ -21,16 +21,11 @@
     <mat-error *ngIf="checkoutForm.get('phone')?.hasError('required')">Это поле обязательно.</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <!-- <mat-form-field appearance="outline">
     <mat-label>Ник в Телеграме</mat-label>
     <input matInput formControlName="telegramNick" required>
     <mat-error *ngIf="checkoutForm.get('telegramNick')?.hasError('required')">Это поле обязательно.</mat-error>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Комментарий</mat-label>
-    <textarea matInput formControlName="comment"></textarea>
-  </mat-form-field>
+  </mat-form-field> -->
 
   <mat-form-field appearance="outline">
     <mat-label>Адрес</mat-label>
@@ -59,5 +54,10 @@
     <mat-error *ngIf="checkoutForm.get('paymentMethod')?.hasError('required')">Выберите способ оплаты</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="checkoutForm.invalid">Оформить заказ</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Комментарий</mat-label>
+    <textarea matInput formControlName="comment"></textarea>
+  </mat-form-field>
+
+  <!-- <button mat-raised-button color="primary" type="submit" [disabled]="checkoutForm.invalid">Оформить заказ</button> -->
 </form>
