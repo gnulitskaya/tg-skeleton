@@ -45,6 +45,7 @@ bot.on(message('web_app_data'), async (ctx) => {
     console.log(data);
 
     const price = data?.price;
+    const chatId = data?.chatId;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
     const email = data?.form.email || 'не указан';
     const phone = data?.form.phone || 'не указан';
@@ -58,7 +59,7 @@ bot.on(message('web_app_data'), async (ctx) => {
         await createPayment(price)
             .then(payment => {
                 ctx.reply(`
-Уважаемый(ая) ${fullName},
+Уважаемый(ая) ${fullName}, ${chatId}
 Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
 
 Вот детали вашей покупки:
