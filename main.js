@@ -45,12 +45,41 @@ bot.on(message('web_app_data'), async (ctx) => {
     // console.log(ctx.webAppData.data.text());
     // ctx.reply(`Вы купили товаров на сумму: ${data?.price} ₽` ?? '')
     const data = ctx.webAppData.data.json();
+
     const price = data?.price;
+    const fullName = data?.form.fullName || 'Уважаемый клиент';
+    const email = data?.form.email || 'не указан';
+    const phone = data?.form.phone || 'не указан';
+    const comment = data?.form.comment || 'Нет комментариев';
+    const address = data?.form.address || 'Не указан';
+    const city = data?.form.city || 'Не указан';
+    const postalCode = data?.form.postalCode || 'Не указан';
+    const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
         await createPayment(price)
             .then(payment => {
-                ctx.reply(`Вы купили товаров на сумму: ${price} ₽. Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}`);
+                ctx.reply(`
+                    Уважаемый(ая) ${fullName},
+
+                    Спасибо за вашу покупку!
+
+                    Мы рады сообщить вам, что ваша заказ был успешно оформлен. Вот детали вашей покупки:
+
+                    - Полное имя: ${fullName}
+                    - Email: ${email}
+                    - Телефон: ${phone}
+                    - Адрес: ${address}, ${city}, ${postalCode}
+                    - Метод оплаты: ${paymentMethod}
+                    - Комментарий: ${comment}
+
+                    Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
+                    
+                    Если у вас есть вопросы, не стесняйтесь обращаться к нам.
+
+                    С уважением,
+                    Ваша команда Angels One Heels`
+                );
             })
             .catch(err => {
                 console.error(err);

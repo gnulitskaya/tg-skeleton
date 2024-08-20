@@ -1,0 +1,63 @@
+<form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <h2>Ваш заказ:</h2>
+
+  <h5>Сумма: {{productsService.totalPrice | async}}</h5>
+  <mat-form-field appearance="outline">
+    <mat-label>ФИО</mat-label>
+    <input matInput formControlName="fullName" required>
+    <mat-error *ngIf="checkoutForm.get('fullName')?.hasError('required')">Это поле обязательно.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Почта</mat-label>
+    <input matInput formControlName="email" required>
+    <mat-error *ngIf="checkoutForm.get('email')?.hasError('required')">Это поле обязательно.</mat-error>
+    <mat-error *ngIf="checkoutForm.get('email')?.hasError('email')">Некорректный адрес электронной почты.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Телефон</mat-label>
+    <input matInput formControlName="phone" required>
+    <mat-error *ngIf="checkoutForm.get('phone')?.hasError('required')">Это поле обязательно.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Ник в Телеграме</mat-label>
+    <input matInput formControlName="telegramNick" required>
+    <mat-error *ngIf="checkoutForm.get('telegramNick')?.hasError('required')">Это поле обязательно.</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Комментарий</mat-label>
+    <textarea matInput formControlName="comment"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Адрес</mat-label>
+    <input matInput formControlName="address" required>
+    <mat-error *ngIf="checkoutForm.get('address')?.hasError('required')">Адрес обязателен</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Город</mat-label>
+    <input matInput formControlName="city" required>
+    <mat-error *ngIf="checkoutForm.get('city')?.hasError('required')">Город обязателен</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Почтовый индекс</mat-label>
+    <input matInput formControlName="postalCode" required>
+    <mat-error *ngIf="checkoutForm.get('postalCode')?.hasError('required')">Почтовый индекс обязателен</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Способ оплаты</mat-label>
+    <mat-select formControlName="paymentMethod" required>
+      <mat-option value="creditCard">Кредитной картой (Visa, Mastercard, МИР)</mat-option>
+      <mat-option value="cashOnDelivery">Наличными при получении (только самовывоз или доставка курьером магазина в г. Москва)</mat-option>
+    </mat-select>
+    <mat-error *ngIf="checkoutForm.get('paymentMethod')?.hasError('required')">Выберите способ оплаты</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="checkoutForm.invalid">Оформить заказ</button>
+</form>

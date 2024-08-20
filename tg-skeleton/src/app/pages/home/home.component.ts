@@ -1,3 +1,4 @@
+import { routes } from './../../app.routes';
 import { Component, OnInit } from '@angular/core';
 import { Category, Product } from '../../models/product';
 import { CommonModule } from '@angular/common';
@@ -21,23 +22,22 @@ export class HomeComponent implements OnInit {
   categories: Category[] = [];
   selectedCategory: number = 1;
   totalCost = 0;
-
-  public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
  
   constructor(private tg: TelegramService,
     private paymentService: PaymentService,
     private busyService: BusyService,
+    private router: Router,
     public productsService: ProductsService) {
     this.sendData = this.sendData.bind(this);
   }
 
   ngOnInit() {
-    this.tg.MainButton.setText('Оплатить');
-    this.tg.MainButton.show();
+    // this.tg.MainButton.setText('Оплатить');
+    // this.tg.MainButton.show();
     // this.tg.MainButton.onClick(() => {
     //   return this.makePayment();
     // })
-    this.tg.MainButton.onClick(this.sendData);
+    this.tg.MainButton.onClick( () => this.router.navigateByUrl('/order'));
     this.productsService.getAllCourses()
       .pipe(
         tap((data) => {
@@ -65,9 +65,10 @@ export class HomeComponent implements OnInit {
 
   result() {
     this.tg.MainButton.show();
-    this.totalPrice.next(this.calculateTotal());
+    this.productsService.totalPrice.next(this.calculateTotal());
     this.tg.MainButton.setParams({
-      text: `Купить ${this.totalPrice.value} ₽`
+      text: `Оформить заказ`
+      // text: `Купить ${this.totalPrice.value} ₽`
     })
     // if (this.totalPrice.value === 0) {
     //   this.tg.MainButton.hide();
@@ -87,13 +88,13 @@ export class HomeComponent implements OnInit {
   }
 
   sendData() {
-    this.tg.sendData({ price: this.totalPrice.value });
+    this.tg.sendData({ price: this.productsService.totalPrice.value });
   }
 
   makePayment() {
     this.busyService.busy();
     const paymentDetails = {
-      amount: Number(this.totalPrice.value),
+      amount: Number(this.productsService.totalPrice.value),
       description: 'Оплата заказа',
       orderId: Math.random().toString(36).substring(7),
     };
