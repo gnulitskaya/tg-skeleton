@@ -25,13 +25,29 @@ export class OrderCheckoutComponent implements OnInit {
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', Validators.required],
-      // telegramNick: ['', Validators.required],
       comment: [''],
       address: ['', Validators.required],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
       paymentMethod: ['', Validators.required]
     });
+  }
+
+  fillTestData() {
+    // Пример тестовых данных
+    const testData = {
+      fullName: 'Иван Иванов',
+      email: 'ivan.ivanov@example.com',
+      phone: '+7 (999) 123-45-67',
+      comment: 'Это тестовый комментарий.',
+      address: 'Улица Пушкина, дом 1',
+      city: 'Москва',
+      postalCode: '101000',
+      paymentMethod: 'creditCard'
+    };
+
+    // Заполнение формы тестовыми данными
+    this.checkoutForm.patchValue(testData);
   }
 
   ngOnInit(): void {
@@ -50,11 +66,11 @@ export class OrderCheckoutComponent implements OnInit {
   }
 
   sendData() {
-    this.tg.sendData({ 
-      form: this.checkoutForm.value, 
+    this.tg.sendData({
+      form: this.checkoutForm.value,
       price: this.productsService.totalPrice.value,
       chatId: this.tg.chatId
-     });
+    });
   }
 
   onSubmit() {

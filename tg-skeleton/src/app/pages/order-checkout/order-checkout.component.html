@@ -1,6 +1,10 @@
 <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
   <h2>Ваш заказ:</h2>
-
+  <ul>
+    <li *ngFor="let item of productsService.purchasedItems">
+      {{ item.product.name }} - {{ item.quantity }} шт.
+    </li>
+  </ul>
   <h5>Сумма: {{productsService.totalPrice | async}}</h5>
   <mat-form-field appearance="outline">
     <mat-label>ФИО</mat-label>
@@ -59,5 +63,5 @@
     <textarea matInput formControlName="comment"></textarea>
   </mat-form-field>
 
-  <!-- <button mat-raised-button color="primary" type="submit" [disabled]="checkoutForm.invalid">Оформить заказ</button> -->
+  <button mat-raised-button color="primary" (click)="fillTestData()">Заполнить</button>
 </form>

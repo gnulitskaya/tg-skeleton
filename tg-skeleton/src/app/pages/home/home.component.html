@@ -57,9 +57,3 @@
   <span>Оплатить</span> {{productsService.totalPrice | async}}
 </button>
 
-<h3>Купленные товары:</h3>
-<ul>
-  <li *ngFor="let item of productsService.purchasedItems">
-    {{ item.product.name }} - {{ item.quantity }} шт.
-  </li>
-</ul>

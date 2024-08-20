@@ -9,7 +9,7 @@ import { Product } from '../models/product';
 })
 export class ProductsService {
   private jsonUrl = 'assets/products.json';
-  purchasedItems: { product: Product; quantity: number }[] = [];
+  public purchasedItems: { product: Product; quantity: number }[] = [];
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) { }
