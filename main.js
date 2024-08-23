@@ -26,7 +26,7 @@ const bot = new Telegraf(token);
 
 bot.command('start', (ctx) => {
     ctx.reply(`
-👠 Добро пожаловать в мир танцев с ANGELS ONE HEELS!
+👠 Добро пожаловать в мир танцев с [НАЗВАНИЕ КОМПАНИИ]!
 
 ### 📦 Как заказать?
 1. Нажмите кнопку [ Каталог ] 
@@ -77,7 +77,7 @@ bot.on(message('web_app_data'), async (ctx) => {
 Если у вас есть вопросы, не стесняйтесь обращаться к нам.
 
 С уважением,
-Ваша команда Angels One Heels 👠`
+Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`
                 );
             })
             .catch(err => {
@@ -99,7 +99,7 @@ async function createPayment(price, chatId) {
         },
         confirmation: {
             type: 'redirect',
-            return_url: 'https://tgminiapp-ee5d4.web.app/confirm'
+            return_url: 'https://t.me/shopifytgmini_bot'
         },
         capture: true,
         description: 'Оплата заказа',
