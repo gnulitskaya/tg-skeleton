@@ -6,54 +6,61 @@
     </li>
   </ul>
 
-  <div *ngFor="let category of categories" [hidden]="selectedCategory !== category.id">
-    <div class="product-item" *ngFor="let product of category.products">
-      <div class="product-image">
-        <img [src]="product.imageUrl" [alt]="product.name">
-      </div>
-      <div class="product-inner">
-        <h4 class="product-title">{{product.name}}</h4>
-        <p class="product-description">{{product.description}}</p>
-        <div class="product-footer">
-          <span class="product-price"><b>{{product.price}} ₽</b></span>
-          <ng-container *ngIf="product.counter > 0; else addButton">
-            <div class="counter">
-              <button class="add-button" (click)="remove(product)">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                  <path
-                    d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
-                </svg>
-              </button>
-              <span>{{product.counter}}</span>
-              <button class="add-button" (click)="add(product)">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                  <path
-                    d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
-                </svg>
-              </button>
-            </div>
-          </ng-container>
-
-          <ng-template #addButton>
-            <button class="add-button" (click)="add(product)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                <path d="M5 12h14"></path>
-                <path d="M12 5v14"></path>
-              </svg>
-              Добавить
-            </button>
-          </ng-template>
+  <div class="product-list" *ngFor="let category of categories">
+    <ng-container *ngIf="selectedCategory == category.id">
+      <div class="product-item" *ngFor="let product of category.products">
+        <div class="product-image">
+          <img [src]="product.imageUrl" [alt]="product.name">
         </div>
-
+        <div class="product-inner">
+          <h4 class="product-title">{{product.name}}</h4>
+          <p class="product-description">{{product.description}}</p>
+          <div class="product-footer">
+            <span class="product-price"><b>{{product.price}} ₽</b></span>
+            <ng-container *ngIf="product.counter > 0; else addButton">
+              <div class="counter">
+                <button class="add-button" (click)="remove(product)">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path
+                      d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+                  </svg>
+                </button>
+                <span>{{product.counter}}</span>
+                <button class="add-button" (click)="add(product)">
+                  <svg xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <path
+                      d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+                  </svg>
+                </button>
+              </div>
+            </ng-container>
+  
+            <ng-template #addButton>
+              <button class="add-button" (click)="add(product)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5v14"></path>
+                </svg>
+                Добавить
+              </button>
+            </ng-template>
+          </div>
+  
+        </div>
       </div>
-    </div>
+    </ng-container>
+    
   </div>
 </div>
 
-<button class="add-button" (click)="makePayment()">
+<footer>
+  <h6>created by <a href="https://t.me/gnulitskaya">&#64;gnulitskaya</a></h6>
+</footer>
+
+<!-- <button class="add-button" (click)="makePayment()">
   <span>Оплатить</span> {{productsService.totalPrice | async}}
-</button>
+</button> -->
 

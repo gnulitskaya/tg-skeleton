@@ -1,18 +1,17 @@
-.product-grid {
+.product-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 50px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
 }
 
 .product-item {
     /* text-align: center; */
-    margin-bottom: 40px;
     box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 0px, rgba(25, 28, 33, 0.06) 0px 1px 2px 0px, rgba(0, 0, 0, 0.03) 0px 0px 0px 1px;
     border-radius: 20px;
 }
 
 .product-inner {
-    padding: 20px;
+    padding: 8px;
 }
 
 .product-image {
@@ -24,7 +23,7 @@
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
     /* rounded-2xl */
-    height: 240px;
+    height: 210px;
     overflow: hidden;
     /* чтобы избежать переполнения */
 }
@@ -37,19 +36,20 @@
 }
 
 .product-title {
-    font-size: 22px;
+    font-size: 12px;
     margin: 0.25rem 0;
     font-weight: bold;
     color: var(--tg-theme-text-color);
 }
 
 .product-description {
-    font-size: 14px;
+    font-size: 10px;
+    margin: 8px 0;
     /* text-sm */
     color: #a0aec0;
     /* text-gray-400 */
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis
@@ -57,13 +57,12 @@
 
 .product-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .product-price {
-    font-size: 20px;
+    font-size: 14px;
 }
 
 .add-button {
@@ -72,9 +71,10 @@
     justify-content: center;
     font-weight: 600;
     // padding: 1rem;
-    padding: 10px 20px;
+    padding: 5px;
+    width: 100%;
     min-height: 40px;
-    border-radius: 0.375rem;
+    border-radius: 15px;
     /* rounded-md */
     background-color: #f0f0f0;
     /* замените на ваш цвет */
@@ -209,4 +209,21 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+footer {
+    background-color: var(--tg-theme-header-bg-color);
+    padding: 10px;
+    border-radius: 0.375rem;
+    margin: 20px 0;
+    text-align: center;
+
+    a {
+        color: var(--tg-theme-accent-text-color);
+        text-decoration: none;
+    }
+
+    h6 {
+        margin: 0;
+    }
 }

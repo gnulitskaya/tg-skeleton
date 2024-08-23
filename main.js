@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(express.json())
 // app.use(cors());
 
-const token  = '7208102281:AAFXC9mcTML2YzMu_N43SgUru6y6F7utFlQ';
+const token  = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 
 const bot = new Telegraf(token);
