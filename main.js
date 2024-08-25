@@ -45,6 +45,7 @@ bot.on(message('web_app_data'), async (ctx) => {
 
     const data = ctx.webAppData.data.json();
     const chatId = ctx.message.chat.id;
+    const orderId = Math.random().toString(36).substring(7);
     console.log('DATA', data);
     console.log('message', message);
 
@@ -60,8 +61,9 @@ bot.on(message('web_app_data'), async (ctx) => {
     const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
-        await createPayment(price, chatId, data?.form, telegramNick)
+        await createPayment(price, chatId, orderId)
             .then(payment => {
+                createUser(price, data?.form, chatId, orderId, telegramNick);
                 ctx.reply(`
 Уважаемый(ая) ${fullName}
 Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
@@ -91,7 +93,22 @@ bot.on(message('web_app_data'), async (ctx) => {
     }
 })
 
-async function createPayment(price, chatId, form, telegramNick) {
+function createUser(price, form, chatId, orderId, telegramNick) {
+    userController.createUser({
+        status: 'createPayment',
+        full_name: form?.fullName,
+        telegram_nick: telegramNick,
+        amount: price,
+        currency: 'RUB',
+        order_id: orderId,
+        comment: form?.comment,
+        adress: form?.adress,
+        payment_method: form?.paymentMethod,
+        chat_id: chatId,
+    });
+}
+
+async function createPayment(price, chatId, orderId) {
 
     console.log(`createPayment`);
 
@@ -107,7 +124,7 @@ async function createPayment(price, chatId, form, telegramNick) {
         capture: true,
         description: 'Оплата заказа',
         metadata: {
-            order_id: Math.random().toString(36).substring(7),
+            order_id: orderId,
             chat_id: chatId
         },
     };
@@ -130,18 +147,6 @@ async function createPayment(price, chatId, form, telegramNick) {
     };
 
     const response = await axios.post('https://api.yookassa.ru/v3/payments', paymentData, options);
-    userController.createUser({
-        status: 'createPayment',
-        full_name: form?.fullName,
-        telegram_nick: telegramNick,
-        amount: paymentData.amount.value,
-        currency: paymentData.amount.currency,
-        order_id: paymentData.metadata.order_id,
-        comment: form?.comment,
-        adress: form?.adress,
-        payment_method: form?.paymentMethod,
-        chat_id: paymentData.metadata.chat_id,
-    });
 
     return response.data;
 }
