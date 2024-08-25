@@ -27,7 +27,7 @@ async function createTableIfNotExists() {
     } catch (err) {
         console.error("Ошибка при создании таблицы:", err);
     } finally {
-        pool.end(); // Закрываем соединение с пулом
+        // pool.end(); // Закрываем соединение с пулом
     }
 }
 
