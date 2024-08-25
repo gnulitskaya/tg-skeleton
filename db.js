@@ -9,44 +9,29 @@ const pool = new Pool({
     port: 5432,
 });
 
-async function createTable() {
+// Функция для создания таблицы
+async function createTableIfNotExists() {
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS your_table_name (
+            id SERIAL PRIMARY KEY,
+            column1 VARCHAR(100),
+            column2 INT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    `;
+
     try {
-        await client.connect();
-        console.log('Connected to PostgreSQL database!');
-
-        // Проверка существования таблицы
-        // const res = await client.query(`
-        //     SELECT EXISTS (
-        //         SELECT 1
-        //         FROM information_schema.tables
-        //         WHERE table_name = 'users'
-        //     );
-        // `);
-
-        // if (!res.rows[0].exists) {
-        //     // Создание таблицы, если она не существует
-        //     await client.query(`
-        //         CREATE TABLE users (
-        //             id SERIAL PRIMARY KEY,
-        //             name VARCHAR(100) NOT NULL,
-        //             email VARCHAR(100) UNIQUE NOT NULL,
-        //             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        //         );
-        //     `);
-        //     console.log('Table created successfully!');
-        // } else {
-        //     console.log('Table "users" already exists.');
-        // }
+        const client = await pool.connect();
+        await client.query(createTableQuery);
+        console.log("Таблица успешно создана или уже существует.");
     } catch (err) {
-        console.error('Error creating table:', err);
+        console.error("Ошибка при создании таблицы:", err);
     } finally {
-        // Закрытие клиента после завершения всех операций
-        await client.end();
-        console.log('Connection to PostgreSQL closed');
+        pool.end(); // Закрываем соединение с пулом
     }
 }
 
-// Вызов функции для создания таблицы
-// createTable();
+// Вызов функции
+createTableIfNotExists();
 
 export default pool;
