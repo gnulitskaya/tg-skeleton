@@ -2,10 +2,12 @@
   "name": "telegram-mini-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "type": "module",
   "scripts": {
-    "start": "node main.js"
+    "start": "node main.js",
+    "startdb": "node db.js",
+    "dev": "nodemon main.js"
   },
   "keywords": [],
   "author": "",
@@ -18,10 +20,13 @@
     "express": "^4.19.2",
     "http-proxy": "^1.18.1",
     "jsdom": "^24.1.1",
+    "mongoose": "^8.5.4",
     "node-fetch": "^3.3.2",
+    "pg": "^8.12.0",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
-    "@types/node": "^22.1.0"
+    "@types/node": "^22.1.0",
+    "nodemon": "^3.1.4"
   }
 }

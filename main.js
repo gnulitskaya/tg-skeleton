@@ -1,5 +1,6 @@
 import { Telegraf, Markup } from 'telegraf';
 import { message } from 'telegraf/filters';
+import router from './routes/user.routes.js';
 
 var corsOptions = {
     origin: ['htt://localhost:4200','https://tgminiapp-ee5d4.web.app/', 'https://api.yookassa.ru/v3/payments'], 
@@ -15,9 +16,9 @@ import https from 'https';
 import fs from 'fs';
 
 const app = express();
+const PORT = process.env.PORT || 8443;
 app.use(cors(corsOptions));
 app.use(express.json())
-// app.use(cors());
 
 const token  = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
@@ -87,7 +88,6 @@ bot.on(message('web_app_data'), async (ctx) => {
     } else {
         ctx.reply('Не удалось получить цену заказа.');
     }
-
 })
 
 async function createPayment(price, chatId) {
@@ -179,8 +179,14 @@ app.get('/', (req, res) => {
     res.send('Hello, HTTPS!');
 });
 
-https.createServer(options, app).listen(8443, () => {
-    console.log('HTTPS Server running on port 8443');
+app.use('/api', router);
+
+https.createServer(options, app).listen(PORT, () => {
+    console.log(`HTTPS Server running on ports http://localhost:${PORT}`);
 });
+
+// app.listen(PORT, () => {
+//     console.log(`HTTPS Server running on port http://localhost:${PORT}`);
+// });
 
 bot.launch();
