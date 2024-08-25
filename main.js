@@ -1,5 +1,6 @@
 import { Telegraf, Markup } from 'telegraf';
 import { message } from 'telegraf/filters';
+import userController from '../controllers/user.controller.js';
 import router from './routes/user.routes.js';
 
 var corsOptions = {
@@ -59,7 +60,7 @@ bot.on(message('web_app_data'), async (ctx) => {
     const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
-        await createPayment(price, chatId)
+        await createPayment(price, chatId, data?.form, telegramNick)
             .then(payment => {
                 ctx.reply(`
 Уважаемый(ая) ${fullName}
@@ -90,8 +91,10 @@ bot.on(message('web_app_data'), async (ctx) => {
     }
 })
 
-async function createPayment(price, chatId) {
+async function createPayment(price, chatId, form, telegramNick) {
+
     console.log(`createPayment`);
+
     const paymentData = {
         amount: {
             value: price.toString(),
@@ -127,6 +130,18 @@ async function createPayment(price, chatId) {
     };
 
     const response = await axios.post('https://api.yookassa.ru/v3/payments', paymentData, options);
+    userController.createUser({
+        status: 'createPayment',
+        full_name: form?.fullName,
+        telegram_nick: telegramNick,
+        amount: paymentData.amount.value,
+        currency: paymentData.amount.currency,
+        order_id: paymentData.metadata.order_id,
+        comment: form?.comment,
+        adress: form?.adress,
+        payment_method: form?.paymentMethod,
+        chat_id: paymentData.metadata.chat_id,
+    });
 
     return response.data;
 }

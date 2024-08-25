@@ -14,8 +14,16 @@ async function createTableIfNotExists() {
     const createTableQuery = `
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
-            name VARCHAR(100) NOT NULL,
-            email VARCHAR(100) UNIQUE NOT NULL,
+            status VARCHAR(10) NOT NULL,
+            full_name VARCHAR(100) NOT NULL,
+            telegram_nick VARCHAR(100) NOT NULL,
+            amount INT NOT NULL,
+            currency VARCHAR(10) NOT NULL,
+            order_id INT NOT NULL,
+            comment TEXT,
+            adress TEXT,
+            payment_method VARCHAR(10) NOT NULL,
+            chat_id INT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `;
