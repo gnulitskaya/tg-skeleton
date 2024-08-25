@@ -12,7 +12,7 @@ const pool = new Pool({
 // Функция для создания таблицы
 async function createTableIfNotExists() {
     const createTableQuery = `
-        CREATE TABLE IF NOT EXISTS your_table_name (
+        CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             name VARCHAR(100) NOT NULL,
             email VARCHAR(100) UNIQUE NOT NULL,
