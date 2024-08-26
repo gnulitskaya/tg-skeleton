@@ -4,7 +4,7 @@ import userController from './controllers/user.controller.js';
 import router from './routes/user.routes.js';
 
 var corsOptions = {
-    origin: ['htt://localhost:4200','https://tgminiapp-ee5d4.web.app/', 'https://api.yookassa.ru/v3/payments'], 
+    origin: ['htt://localhost:4200', 'https://tgminiapp-ee5d4.web.app/', 'https://api.yookassa.ru/v3/payments'],
     methods: 'GET,POST,PUT,DELETE,PATCH', // разрешенные методы
     credentials: true, // Разрешает использование учетных данных (куки, авторизация и т.д.)
     optionsSuccessStatus: 200
@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 8443;
 app.use(cors(corsOptions));
 app.use(express.json())
 
-const token  = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
+const token = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
 
 const bot = new Telegraf(token);
@@ -63,7 +63,16 @@ bot.on(message('web_app_data'), async (ctx) => {
     if (price) {
         await createPayment(price, chatId, orderId)
             .then(payment => {
-                createUser(price, data?.form, chatId, orderId, telegramNick);
+
+                const paymentData = {
+                    price: price,
+                    form: data?.form, 
+                    chatId, 
+                    orderId, 
+                    telegramNick
+                }
+                createPayment(paymentData, 'createPayment');
+
                 ctx.reply(`
 Уважаемый(ая) ${fullName}
 Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
@@ -93,21 +102,6 @@ bot.on(message('web_app_data'), async (ctx) => {
     }
 })
 
-function createUser(price, form, chatId, orderId, telegramNick) {
-    userController.createUser({
-        status: 'createPayment',
-        full_name: form?.fullName,
-        telegram_nick: telegramNick,
-        amount: price,
-        currency: 'RUB',
-        order_id: orderId,
-        comment: form?.comment,
-        adress: form?.adress,
-        payment_method: form?.paymentMethod,
-        chat_id: chatId,
-    });
-}
-
 async function createPayment(price, chatId, orderId) {
 
     console.log(`createPayment`);
@@ -133,7 +127,7 @@ async function createPayment(price, chatId, orderId) {
         'Content-Type': 'application/json',
         'Idempotence-Key': Math.random().toString(36).substring(7),
         'Access-Control-Allow-Origin': 'http://localhost:4200',
-        "Access-Control-Allow-Headers" : "Origin,X-Requested-With,Content-Type,Accept",
+        "Access-Control-Allow-Headers": "Origin,X-Requested-With,Content-Type,Accept",
         "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
         'Authorization': 'Basic ' + btoa('435225' + ':' + 'test_o7wEW2Yo1o3uTzfjibTwXjqciVdVFGf5iUEfoTtl_7o')
     };
@@ -154,27 +148,58 @@ async function createPayment(price, chatId, orderId) {
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log('eventData', eventData);
-    
-    // Check if the event is a payment.succeeded
+
     if (eventData?.event === 'payment.succeeded') {
         const paymentId = eventData.object.id;
-        // const amount = eventData.object.amount.value;
-        // const currency = eventData.object.amount.currency;
         const chatId = eventData.object.metadata.chat_id;
-        console.log('chatId', chatId);
+        const orderId = eventData.object.metadata.order_id;
+        console.log('orderId', orderId);
+
+        updatePayment('paymentSucceeded');
+
         // Send a message to your Telegram bot
-        await bot.telegram.sendMessage(chatId, 
-`
+        await bot.telegram.sendMessage(chatId,
+            `
 Спасибо за вашу покупку! 🎉🎉🎉
 ID платежа: ${paymentId}
 
 Мы рады сообщить вам, что ваша заказ был успешно оформлен.
 `);
-// Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.
+        // Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.
     }
 
     res.sendStatus(200); // Respond with 200 OK
 });
+
+function updatePayment(status) {
+    userController.updatePayment({
+        status: status,
+        // full_name: data.form?.fullName,
+        // telegram_nick: data.telegramNick,
+        // amount: data.price,
+        // currency: 'RUB',
+        // order_id: data.orderId,
+        // comment: data.form?.comment,
+        // adress: data.form?.adress,
+        // payment_method: data.form?.paymentMethod,
+        // chat_id: data.chatId,
+    });
+}
+
+function createPayment(data, status) {
+    userController.createPayment({
+        status: status,
+        full_name: data.form?.fullName,
+        telegram_nick: data.telegramNick,
+        amount: data.price,
+        currency: 'RUB',
+        order_id: data.orderId,
+        comment: data.form?.comment,
+        adress: data.form?.adress,
+        payment_method: data.form?.paymentMethod,
+        chat_id: data.chatId,
+    });
+}
 
 // Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
