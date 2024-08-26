@@ -71,7 +71,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                     orderId, 
                     telegramNick
                 }
-                createPayment(paymentData, 'createPayment');
+                addPayment(paymentData, 'createPayment');
 
                 ctx.reply(`
 Уважаемый(ая) ${fullName}
@@ -186,7 +186,7 @@ function updatePayment(status) {
     });
 }
 
-function createPayment(data, status) {
+function addPayment(data, status) {
     userController.createPayment({
         status: status,
         full_name: data.form?.fullName,
