@@ -3,10 +3,10 @@ import db from '../db.js';
 class UserController {
     async createPayment(req, res) {
         console.log('newUser', req);
-        const { status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id } = req;
+        // const { status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id } = req;
 
         const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *', 
-            [status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id]);
+            [req.status, req.full_name, req.telegram_nick, req.amount, req.currency, req.order_id, req.comment, req.adress, req.payment_method, req.chat_id]);
 
         res.status(201).json(newUser.rows[0]);
     }
