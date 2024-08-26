@@ -22,7 +22,7 @@ class UserController {
     async updatePayment(req, res) {
         console.log('updatePayment', req);
         const { status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id, id } = req;
-        const payment = await db.query('UPDATE payments SET status = $1, full_name = $2, telegram_nick = $3, amount = $4, currency = $5, order_id = $6, comment = $7, adress = $8, payment_method = $9, chat_id = $10 WHERE id = $11 RETURNING *',
+        const payment = await db.query('UPDATE payments SET status = $1, full_name = $2, telegram_nick = $3, amount = $4, currency = $5, comment = $7, adress = $8, payment_method = $9, chat_id = $10 WHERE order_id = $6 RETURNING *',
             [status, full_name, telegram_nick, amount, currency, order_id, comment, adress, payment_method, chat_id, id]);
         return res.json(payment.rows[0]);
     }

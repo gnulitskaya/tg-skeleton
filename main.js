@@ -155,7 +155,7 @@ app.post('/webhook', async (req, res) => {
         const orderId = eventData.object.metadata.order_id;
         console.log('orderId', orderId);
 
-        updatePayment('paymentSucceeded');
+        updatePayment(orderId, 'paymentSucceeded');
 
         // Send a message to your Telegram bot
         await bot.telegram.sendMessage(chatId,
@@ -171,8 +171,9 @@ ID платежа: ${paymentId}
     res.sendStatus(200); // Respond with 200 OK
 });
 
-function updatePayment(status) {
+function updatePayment(orderId, status) {
     userController.updatePayment({
+        orderId: orderId,
         status: status,
         // full_name: data.form?.fullName,
         // telegram_nick: data.telegramNick,
