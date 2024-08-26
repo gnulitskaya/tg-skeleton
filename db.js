@@ -19,7 +19,7 @@ async function createTableIfNotExists() {
             telegram_nick VARCHAR(100) NOT NULL,
             amount INT NOT NULL,
             currency VARCHAR(10) NOT NULL,
-            order_id VARCHAR(10) NOT NULL,
+            order_id TEXT NOT NULL,
             comment TEXT,
             adress TEXT,
             payment_method VARCHAR(10) NOT NULL,
