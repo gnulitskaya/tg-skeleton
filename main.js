@@ -173,7 +173,7 @@ ID платежа: ${paymentId}
 
 function updatePayment(orderId, status) {
     userController.updatePayment({
-        orderId: orderId,
+        order_id: orderId,
         status: status,
         // full_name: data.form?.fullName,
         // telegram_nick: data.telegramNick,
