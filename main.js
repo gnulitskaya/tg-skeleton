@@ -1,6 +1,6 @@
 import { Telegraf, Markup } from 'telegraf';
 import { message } from 'telegraf/filters';
-import userController from '../controllers/user.controller.js';
+import userController from './controllers/user.controller.js';
 import router from './routes/user.routes.js';
 
 var corsOptions = {
