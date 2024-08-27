@@ -173,7 +173,7 @@ app.get('/events', (req, res) => {
     const intervalId = setInterval(() => {
         const data = { message: 'Hello from server!', timestamp: new Date() };
         // res.write(`data: ${data}`);
-        res.write(`data: randomUser\nid: ${i}\nretry: 5000\ndata: ${JSON.stringify(data)}\n\n`)
+        res.write(`data: ${data}\n\n`);
     }, 1000);
 
     // Clean up when the connection is closed
