@@ -75,10 +75,11 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 sendPayment(paymentData, 'createPayment');
-                ctx.reply(``,
-                    Markup.inlineKeyboard([
-                        Markup.button.url('createPayment', `${payment.confirmation.confirmation_url}`)
-                    ])
+                ctx.reply(`jsdbcdj`,
+                    Markup.keyboard([Markup.button.webApp('jscbdsj', `${payment.confirmation.confirmation_url}`)])
+                    // Markup.inlineKeyboard([
+                    //     Markup.button.url('createPayment', `${payment.confirmation.confirmation_url}`)
+                    // ])
                 )
 
                 //                 ctx.reply(`
