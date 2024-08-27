@@ -12,13 +12,11 @@ export class SseService {
 
   public connect(): void {
     this.eventSource = new EventSource('https://tgmini.ru:8443/events');
-    // alert('connected');
     this.eventSource.onmessage = (event) => {
-      // alert('Event received:');
       // const data = JSON.parse(event.data);
       console.log('New message from server:', event.data);
       const data = JSON.stringify(event.data);
-      alert(data);
+      // alert(data);
       this.eventsSubject.next(data);
     };
 
