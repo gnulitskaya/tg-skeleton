@@ -47,7 +47,9 @@ bot.on(message('web_app_data'), async (ctx) => {
     const orderId = Math.random().toString(36).substring(7);
     console.log('DATA', data);
     console.log('message', message);
-    const products = data?.products;
+    const products = JSON.stringify(data?.products);
+
+    console.log('products', products);
 
     const price = data?.price;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
