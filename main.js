@@ -45,6 +45,7 @@ bot.on(message('web_app_data'), async (ctx) => {
     const data = ctx.webAppData.data.json();
     const chatId = ctx.message.chat.id;
     const orderId = Math.random().toString(36).substring(7);
+
     console.log('DATA', data);
     console.log('message', message);
     const products = JSON.stringify(data?.products);
@@ -65,7 +66,6 @@ bot.on(message('web_app_data'), async (ctx) => {
     if (price) {
         await createPayment(price, chatId, orderId)
             .then(payment => {
-
                 const paymentData = {
                     price: price,
                     form: data?.form, 
@@ -74,9 +74,10 @@ bot.on(message('web_app_data'), async (ctx) => {
                     orderId, 
                     telegramNick
                 }
-                addPayment(paymentData, 'createPayment');
-                window.location.href = `${payment.confirmation.confirmation_url}`;
-
+                sendPayment(paymentData, 'createPayment');
+                Markup.inlineKeyboard([
+                    Markup.button.url('createPayment', `${payment.confirmation.confirmation_url}`)
+                ])
 //                 ctx.reply(`
 // Уважаемый(ая) ${fullName}
 // Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
@@ -151,7 +152,6 @@ async function createPayment(price, chatId, orderId) {
     };
 
     const response = await axios.post('https://api.yookassa.ru/v3/payments', paymentData, options);
-
     return response.data;
 }
 
@@ -197,7 +197,7 @@ function updatePayment(orderId, status) {
     });
 }
 
-function addPayment(data, status) {
+function sendPayment(data, status) {
     userController.createPayment({
         status: status,
         full_name: data.form?.fullName,
