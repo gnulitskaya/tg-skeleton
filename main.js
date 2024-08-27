@@ -107,7 +107,7 @@ app.get('/events', (req, res) => {
 
     // Send an event every second
     const intervalId = setInterval(() => {
-        const data = { link: userController.confirmationUrl, timestamp: new Date() };
+        const data = { link: userController.getConfirmationUrl, timestamp: new Date() };
         res.write(`data: ${JSON.stringify(data)}\n\n`);
     }, 1000);
 

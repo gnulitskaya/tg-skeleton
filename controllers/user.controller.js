@@ -3,6 +3,9 @@ import createPayment from '../scripts/create-payment.js';
 
 class UserController {
     static confirmationUrl = '';
+    getConfirmationUrl() {
+        return UserController.confirmationUrl;
+    }
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req.body);
         const { price, form, products, chatId, orderId, telegramNick } = req.body;
