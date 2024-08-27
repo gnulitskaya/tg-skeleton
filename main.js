@@ -43,7 +43,7 @@ bot.command('start', (ctx) => {
 })
 
 bot.on(message('web_app_data'), async (ctx) => {
-    console.log('PA<JNFTN', data);
+    // console.log('PA<JNFTN', data);
     const data = ctx.webAppData.data.json();
     const chatId = ctx.message.chat.id;
     const orderId = Math.random().toString(36).substring(7);
@@ -179,7 +179,7 @@ app.get('/events', (req, res) => {
 
     req.on('close', () => {
         clearInterval(intervalId);
-        confirmationUrl = '';
+        // confirmationUrl = '';
         res.end();
     });
 });
