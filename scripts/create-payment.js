@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-async function createPayment(price, chatId, orderId) {
+async function createPayment(price, chatId, orderId, return_url) {
 
     console.log(`createPayment`);
 
@@ -11,7 +11,7 @@ async function createPayment(price, chatId, orderId) {
         },
         confirmation: {
             type: 'redirect',
-            return_url: 'https://t.me/shopifytgmini_bot'
+            return_url: return_url
         },
         capture: true,
         description: 'Оплата заказа',

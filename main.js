@@ -52,7 +52,7 @@ bot.on(message('web_app_data'), async (ctx) => {
     const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
-        await createPayment(price, chatId, orderId)
+        await createPayment(price, chatId, orderId, 'https://t.me/shopifytgmini_bot')
             .then(payment => {
                 const paymentData = {
                     price: price,

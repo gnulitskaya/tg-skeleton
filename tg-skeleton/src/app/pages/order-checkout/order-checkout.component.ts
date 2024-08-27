@@ -96,19 +96,10 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
 
   connect() {
     this.sseService.connect();
-    this.subscription = this.sseService.getEvents().subscribe(event => {
-      alert('connect');
-    
-      const data = JSON.parse(event);
-
-      // alert(data);
-      // alert(data.link);
-      console.log(typeof data);
-      // console.log(data);
-      // console.log(data.link);
-      alert(data.confirmationUrl);
-      if (data.confirmationUrl !== '') {
-        window.location.href = data.link;
+    this.subscription = this.sseService.getEvents().subscribe((event: any) => {
+      const obj = JSON.parse(event);
+      if (obj.confirmationUrl !== '') {
+        window.location.href = obj.confirmationUrl;
       }
       this.events.push(event);
     });
@@ -127,8 +118,6 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.checkoutForm.valid) {
       console.log('Форма отправлена', this.checkoutForm.value);
-      // Здесь вы можете добавить логику для обработки заказа
-
     }
   }
 }

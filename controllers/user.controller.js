@@ -11,7 +11,7 @@ class UserController {
         const { price, form, products, chatId, orderId, telegramNick } = req.body;
         // if (price) {
         try {
-            const payment = await createPayment(price, chatId, orderId);
+            const payment = await createPayment(price, chatId, orderId, 'https://tgminiapp-ee5d4.web.app/confirm');
 
             const paymentData = {
                 price,
