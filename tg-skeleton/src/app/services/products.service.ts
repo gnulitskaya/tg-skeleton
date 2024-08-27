@@ -32,6 +32,32 @@ export class ProductsService {
         this.purchasedItems.push({ product, quantity: product.counter });
       }
     }
+
+    // Сохраняем обновленный массив в localStorage
+    localStorage.setItem('purchasedItems', JSON.stringify(this.purchasedItems));
   }
+
+  // Метод для загрузки данных из localStorage при инициализации
+  loadPurchasedItems() {
+    const savedItems = localStorage.getItem('purchasedItems');
+    console.log('savedItems', savedItems);
+    if (savedItems) {
+      this.purchasedItems = JSON.parse(savedItems);
+    } else {
+      this.purchasedItems = []; // Инициализируем пустым массивом, если данных нет
+    }
+  }
+
+  // updatePurchasedItems(product: Product) {
+  //   const existingItem = this.purchasedItems.find(item => item.product.id === product.id);
+
+  //   if (existingItem) {
+  //     existingItem.quantity = product.counter || 0;
+  //   } else {
+  //     if (product.counter > 0) {
+  //       this.purchasedItems.push({ product, quantity: product.counter });
+  //     }
+  //   }
+  // }
 
 }

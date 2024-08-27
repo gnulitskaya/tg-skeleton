@@ -17,11 +17,12 @@ async function createTableIfNotExists() {
             status VARCHAR(20) NOT NULL,
             full_name VARCHAR(100) NOT NULL,
             telegram_nick VARCHAR(100) NOT NULL,
+            products JSONB NOT NULL,
             amount INT NOT NULL,
             currency VARCHAR(10) NOT NULL,
             order_id TEXT NOT NULL,
             comment TEXT,
-            adress TEXT,
+            address TEXT,
             payment_method VARCHAR(20) NOT NULL,
             chat_id INT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

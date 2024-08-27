@@ -51,6 +51,7 @@ export class OrderCheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
     this.tg.MainButton.onClick(this.sendData);
 
@@ -69,7 +70,8 @@ export class OrderCheckoutComponent implements OnInit {
     this.tg.sendData({
       form: this.checkoutForm.value,
       price: this.productsService.totalPrice.value,
-      chatId: this.tg.chatId
+      chatId: this.tg.chatId,
+      products: this.productsService.purchasedItems
     });
   }
 

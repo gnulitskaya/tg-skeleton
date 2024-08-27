@@ -42,12 +42,12 @@ bot.command('start', (ctx) => {
 })
 
 bot.on(message('web_app_data'), async (ctx) => {
-
     const data = ctx.webAppData.data.json();
     const chatId = ctx.message.chat.id;
     const orderId = Math.random().toString(36).substring(7);
     console.log('DATA', data);
     console.log('message', message);
+    const products = data?.products;
 
     const price = data?.price;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
@@ -67,6 +67,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                 const paymentData = {
                     price: price,
                     form: data?.form, 
+                    products,
                     chatId, 
                     orderId, 
                     telegramNick
@@ -181,7 +182,7 @@ function updatePayment(orderId, status) {
         // currency: 'RUB',
         // order_id: data.orderId,
         // comment: data.form?.comment,
-        // adress: data.form?.adress,
+        // address: data.form?.address,
         // payment_method: data.form?.paymentMethod,
         // chat_id: data.chatId,
     });
@@ -192,11 +193,12 @@ function addPayment(data, status) {
         status: status,
         full_name: data.form?.fullName,
         telegram_nick: data.telegramNick,
+        products: data.products,
         amount: data.price,
         currency: 'RUB',
         order_id: data.orderId,
         comment: data.form?.comment,
-        adress: data.form?.adress,
+        address: data.form?.address,
         payment_method: data.form?.paymentMethod,
         chat_id: data.chatId,
     });
