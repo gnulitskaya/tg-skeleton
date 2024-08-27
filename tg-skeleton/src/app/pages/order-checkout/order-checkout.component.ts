@@ -19,6 +19,7 @@ import { Subscription } from 'rxjs';
 export class OrderCheckoutComponent implements OnInit, OnDestroy {
   checkoutForm: FormGroup;
   events: any[] = [];
+  link: string = '';
   private subscription!: Subscription;
 
   constructor(private fb: FormBuilder, private tg: TelegramService,
@@ -63,8 +64,10 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sseService.connect();
     this.subscription = this.sseService.getEvents().subscribe(event => {
+      this.link = event.link;
       if(event.link !== '') {
         window.location.href = event.link;
+        
       }
       this.events.push(event);
     });
