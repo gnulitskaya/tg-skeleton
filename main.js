@@ -55,13 +55,13 @@ bot.on(message('web_app_data'), async (ctx) => {
     const price = data?.price;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
     const telegramNick = '@' + ctx.message.chat.username || 'не указан';
-    // const email = data?.form.email || 'не указан';
-    // const phone = data?.form.phone || 'не указан';
-    // const comment = data?.form.comment || 'Нет комментариев';
-    // const address = data?.form.address || 'Не указан';
-    // const city = data?.form.city || 'Не указан';
-    // const postalCode = data?.form.postalCode || 'Не указан';
-    // const paymentMethod = data?.form.paymentMethod || 'Не указан';
+    const email = data?.form.email || 'не указан';
+    const phone = data?.form.phone || 'не указан';
+    const comment = data?.form.comment || 'Нет комментариев';
+    const address = data?.form.address || 'Не указан';
+    const city = data?.form.city || 'Не указан';
+    const postalCode = data?.form.postalCode || 'Не указан';
+    const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
         await createPayment(price, chatId, orderId)
