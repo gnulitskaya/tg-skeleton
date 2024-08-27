@@ -97,12 +97,18 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   connect() {
     this.sseService.connect();
     this.subscription = this.sseService.getEvents().subscribe(event => {
-      // alert(event);
+      alert('connect');
+    
       const data = JSON.parse(event);
-      alert('link');
-      alert(data);
-      if (event.link !== '') {
-        window.location.href = event.link;
+
+      // alert(data);
+      // alert(data.link);
+      console.log(typeof data);
+      // console.log(data);
+      // console.log(data.link);
+      alert(data.confirmationUrl);
+      if (data.confirmationUrl !== '') {
+        window.location.href = data.link;
       }
       this.events.push(event);
     });

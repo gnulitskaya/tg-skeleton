@@ -1,0 +1,25 @@
+[debug] [2024-08-27T20:57:52.406Z] ----------------------------------------------------------------------
+[debug] [2024-08-27T20:57:52.407Z] Command:       /opt/homebrew/Cellar/node/22.4.1/bin/node /opt/homebrew/bin/firebase deploy
+[debug] [2024-08-27T20:57:52.407Z] CLI Version:   13.15.0
+[debug] [2024-08-27T20:57:52.407Z] Platform:      darwin
+[debug] [2024-08-27T20:57:52.408Z] Node Version:  v22.4.1
+[debug] [2024-08-27T20:57:52.408Z] Time:          Tue Aug 27 2024 23:57:52 GMT+0300 (Moscow Standard Time)
+[debug] [2024-08-27T20:57:52.408Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-08-27T20:57:52.442Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-08-27T20:57:52.442Z] > authorizing via signed-in user (leragnulitskaya@gmail.com)
+[debug] [2024-08-27T20:57:52.443Z] [iam] checking project tgminiapp-ee5d4 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2024-08-27T20:57:52.443Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/tgminiapp-ee5d4:testIamPermissions [none]
+[debug] [2024-08-27T20:57:52.443Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/tgminiapp-ee5d4:testIamPermissions x-goog-quota-user=projects/tgminiapp-ee5d4
+[debug] [2024-08-27T20:57:52.443Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tgminiapp-ee5d4:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-08-27T20:57:53.250Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/tgminiapp-ee5d4:testIamPermissions 200
+[debug] [2024-08-27T20:57:53.251Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/tgminiapp-ee5d4:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2024-08-27T20:57:53.251Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/tgminiapp-ee5d4 [none]
+[debug] [2024-08-27T20:57:53.647Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/tgminiapp-ee5d4 200
+[debug] [2024-08-27T20:57:53.647Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/tgminiapp-ee5d4 {"projectId":"tgminiapp-ee5d4","projectNumber":"892082652030","displayName":"tgminiapp","name":"projects/tgminiapp-ee5d4","resources":{"hostingSite":"tgminiapp-ee5d4"},"state":"ACTIVE","etag":"1_0ae2d01e-b131-4273-a741-803c725aa295"}
+[info] 
+[info] === Deploying to 'tgminiapp-ee5d4'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2024-08-27T20:57:53.651Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tgminiapp-ee5d4/versions [none]
+[debug] [2024-08-27T20:57:53.651Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/tgminiapp-ee5d4/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
