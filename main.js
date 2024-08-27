@@ -43,7 +43,6 @@ bot.command('start', (ctx) => {
 })
 
 bot.on(message('web_app_data'), async (ctx) => {
-    // console.log('PA<JNFTN', data);
     const data = ctx.webAppData.data.json();
     const chatId = ctx.message.chat.id;
     const orderId = Math.random().toString(36).substring(7);
@@ -79,41 +78,41 @@ bot.on(message('web_app_data'), async (ctx) => {
                 sendPayment(paymentData, 'createPayment');
                 confirmationUrl = `${payment.confirmation.confirmation_url}`;
 
-                // const keyboard = Markup.inlineKeyboard([
-                //     [Markup.button.url('Оплатить 🥳', confirmationUrl)]
-                // ]);
+                const keyboard = Markup.inlineKeyboard([
+                    [Markup.button.url('Оплатить 🥳', confirmationUrl)]
+                ]);
 
-                // ctx.reply(`
-                //     Платеж создан, ссылка для оплаты: 
-                //     Уважаемый(ая) ${fullName}`, keyboard);
+                ctx.reply(`
+                    Платеж создан, ссылка для оплаты: 
+                    Уважаемый(ая) ${fullName}`, keyboard);
 
-                // console.log('webApp5', ctx.webAppData);
-                // ctx.webApp.openLink();
+                console.log('webApp5', ctx.webAppData);
+                ctx.webApp.openLink();
 
-//                 ctx.reply(`
-// Уважаемый(ая) ${fullName}
-// Платеж создан, ссылка для оплаты: ${confirmationUrl}
+                ctx.reply(`
+Уважаемый(ая) ${fullName}
+Платеж создан, ссылка для оплаты: ${confirmationUrl}
 
-// Вот детали вашей покупки:
+Вот детали вашей покупки:
 
-// - Товары: ${JSON.parse(products).map(item => {
-//     const { name, price } = item.product;
-//     const quantity = item.quantity;
-//     return `${name} - ${price}, ${quantity} шт.`;
-// }).join(', ')}
+- Товары: ${JSON.parse(products).map(item => {
+    const { name, price } = item.product;
+    const quantity = item.quantity;
+    return `${name} - ${price}, ${quantity} шт.`;
+}).join(', ')}
 
-// - Полное имя: ${fullName}
-// - Ник в Телеграме: ${telegramNick}
-// - Email: ${email}
-// - Телефон: ${phone}
-// - Адрес: ${address}, ${city}, ${postalCode}
-// - Метод оплаты: ${paymentMethod}
-// - Комментарий: ${comment}
+- Полное имя: ${fullName}
+- Ник в Телеграме: ${telegramNick}
+- Email: ${email}
+- Телефон: ${phone}
+- Адрес: ${address}, ${city}, ${postalCode}
+- Метод оплаты: ${paymentMethod}
+- Комментарий: ${comment}
 
-// Если у вас есть вопросы, не стесняйтесь обращаться к нам.
+Если у вас есть вопросы, не стесняйтесь обращаться к нам.
 
-// С уважением,
-// Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`,keyboard);
+С уважением,
+Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`,keyboard);
             })
             .catch(err => {
                 console.error(err);
