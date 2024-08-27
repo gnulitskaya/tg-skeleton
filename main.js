@@ -82,6 +82,12 @@ bot.on(message('web_app_data'), async (ctx) => {
 
 Вот детали вашей покупки:
 
+- Товары: ${products.map(item => {
+    const { name, price } = item.product;
+    const quantity = item.quantity;
+    return `${name} - ${price}, ${quantity} шт.`;
+}).join(', ')}
+
 - Полное имя: ${fullName}
 - Ник в Телеграме: ${telegramNick}
 - Email: ${email}
