@@ -8,7 +8,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductsService {
-  private apiUrl = 'https://tgmini.ru:8443/';
+  private apiUrl = 'https://tgmini.ru:8443/api/';
   private jsonUrl = 'assets/products.json';
   public purchasedItems: { product: Product; quantity: number }[] = [];
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);

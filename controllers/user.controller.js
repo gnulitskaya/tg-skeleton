@@ -3,6 +3,7 @@ import db from '../db.js';
 class UserController {
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req);
+        return res.json(req.body);
     }
     async savePayment(req, res) {
         console.log('newUser', req);

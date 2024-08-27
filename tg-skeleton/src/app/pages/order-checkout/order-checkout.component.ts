@@ -62,15 +62,14 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sseService.connect();
-    this.subscription = this.sseService.getEvents().subscribe(event => {
-      this.link = event.link;
-      if(event.link !== '') {
-        window.location.href = event.link;
-        
-      }
-      this.events.push(event);
-    });
+    // this.sseService.connect();
+    // this.subscription = this.sseService.getEvents().subscribe(event => {
+    //   this.link = event.link;
+    //   if(event.link !== '') {
+    //     window.location.href = event.link;
+    //   }
+    //   this.events.push(event);
+    // });
 
     this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
@@ -96,6 +95,16 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
     }
     this.productsService.savePayment(data).subscribe();
     this.tg.sendData(data);
+  }
+
+  test() {
+    const data = {
+      form: this.checkoutForm.value,
+      price: this.productsService.totalPrice.value,
+      chatId: this.tg.chatId,
+      products: this.productsService.purchasedItems
+    }
+    this.productsService.savePayment(data).subscribe();
   }
 
   onSubmit() {
