@@ -21,9 +21,9 @@ class UserController {
 
             // Сохраните данные о платеже, если это необходимо
             // await savePayment(paymentData, 'createPayment');
-            console.log('this.confirmationUrl1', confirmationUrl);
-            confirmationUrl = `${ payment.confirmation.confirmation_url }`;
-            console.log('this.confirmationUrl2', confirmationUrl);
+            console.log('this.confirmationUrl1', UserController.confirmationUrl);
+            UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
+            console.log('this.confirmationUrl2', UserController.confirmationUrl);
 
             return res.json(paymentData); // Возвращаем данные о платеже
         } catch (err) {
