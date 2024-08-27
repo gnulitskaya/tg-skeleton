@@ -15,6 +15,7 @@ import cors from 'cors';
 import axios from 'axios';
 import https from 'https';
 import fs from 'fs';
+import { link } from 'telegraf/format';
 
 const app = express();
 const PORT = process.env.PORT || 8443;
@@ -23,6 +24,7 @@ app.use(express.json())
 
 const token = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
+const confirmationUrl = '';
 
 const bot = new Telegraf(token);
 
@@ -75,7 +77,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 sendPayment(paymentData, 'createPayment');
-                const confirmationUrl = `${payment.confirmation.confirmation_url}`;
+                confirmationUrl = `${payment.confirmation.confirmation_url}`;
 
                 const keyboard = Markup.inlineKeyboard([
                     [Markup.button.url('Оплатить 🥳', confirmationUrl)]
@@ -171,7 +173,7 @@ app.get('/events', (req, res) => {
 
     // Send an event every second
     const intervalId = setInterval(() => {
-        const data = { message: 'Hello from server!', timestamp: new Date() };
+        const data = { link: confirmationUrl, timestamp: new Date() };
         // res.write(`data: ${data}`);
         res.write(`data: ${JSON.stringify(data)}\n\n`);
     }, 1000);
