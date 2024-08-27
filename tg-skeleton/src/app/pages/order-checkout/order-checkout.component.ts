@@ -63,7 +63,9 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sseService.connect();
     this.subscription = this.sseService.getEvents().subscribe(event => {
-      console.log(event);
+      if(event.link !== '') {
+        window.location.href = event.link;
+      }
       this.events.push(event);
     });
 

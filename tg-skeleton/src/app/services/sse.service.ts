@@ -8,7 +8,7 @@ export class SseService {
   private eventSource!: EventSource;
   private eventsSubject = new Subject<any>();
 
-  constructor() {}
+  constructor() { }
 
   public connect(): void {
     this.eventSource = new EventSource('https://tgmini.ru:8443/events');
@@ -17,13 +17,8 @@ export class SseService {
       // alert('Event received:');
       // const data = JSON.parse(event.data);
       console.log('New message from server:', event.data);
-      try {
-        const data = JSON.parse(event.data);
-        this.eventsSubject.next(data);
-      } catch (e) {
-        console.error('Error parsing event data:', e);
-      }
-
+      const data = JSON.parse(event.data);
+      this.eventsSubject.next(data);
     };
 
     this.eventSource.onerror = (error) => {

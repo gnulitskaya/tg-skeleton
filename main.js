@@ -15,7 +15,6 @@ import cors from 'cors';
 import axios from 'axios';
 import https from 'https';
 import fs from 'fs';
-import { link } from 'telegraf/format';
 
 const app = express();
 const PORT = process.env.PORT || 8443;
@@ -24,7 +23,7 @@ app.use(express.json())
 
 const token = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
-const confirmationUrl = '';
+let confirmationUrl = '';
 
 const bot = new Telegraf(token);
 
