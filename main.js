@@ -75,8 +75,17 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 sendPayment(paymentData, 'createPayment');
-                console.log('webApp5', ctx.webAppData);
-                ctx.webApp.openLink(`${payment.confirmation.confirmation_url}`);
+                const confirmationUrl = `${payment.confirmation.confirmation_url}`; // Your confirmation URL
+
+                // Create an inline keyboard with a button linking to the confirmation URL
+                const keyboard = Markup.inlineKeyboard([
+                    [Markup.button.url('Confirm Payment', confirmationUrl)]
+                ]);
+
+                ctx.reply('Please confirm your payment by clicking the button below:', keyboard);
+
+                // console.log('webApp5', ctx.webAppData);
+                // ctx.webApp.openLink();
                 // ctx.reply(`jsdbcdj`,
                 //     Markup.keyboard([Markup.button.webApp('jscbdsj', `${payment.confirmation.confirmation_url}`)])
                 //     // Markup.inlineKeyboard([
