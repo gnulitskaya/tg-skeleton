@@ -1,8 +1,13 @@
 import { Telegraf, Markup } from 'telegraf';
 import { message } from 'telegraf/filters';
+import express from 'express';
+import cors from 'cors';
+import https from 'https';
+import fs from 'fs';
 import userController from './controllers/user.controller.js';
 import createPayment from './scripts/create-payment.js';
 import router from './routes/user.routes.js';
+import mockText from './scripts/mock.js';
 
 var corsOptions = {
     origin: ['https://tgmini.ru', 'https://tgminiapp-ee5d4.web.app', 'https://api.yookassa.ru/v3/payments'],
@@ -11,32 +16,18 @@ var corsOptions = {
     optionsSuccessStatus: 200
 };
 
-import express from 'express';
-import cors from 'cors';
-import https from 'https';
-import fs from 'fs';
-
 const app = express();
-const PORT = process.env.PORT || 8443;
 app.use(cors(corsOptions));
 app.use(express.json())
 
+const PORT = process.env.PORT || 8443;
 const token = '7478645760:AAFZTKbydXzv6eGfFD8J1y-ekpGV8RCXDDw';
 const webAppUrl = 'https://tgminiapp-ee5d4.web.app/';
+const bot = new Telegraf(token);
 let confirmationUrl = '';
 
-const bot = new Telegraf(token);
-
 bot.command('start', (ctx) => {
-    ctx.reply(`
-👠 Добро пожаловать в мир танцев с [НАЗВАНИЕ КОМПАНИИ]!
-
-### 📦 Как заказать?
-1. Нажмите кнопку [ Каталог ] 
-2. Выберите модель обуви и одежду.
-3. Оформите заказ и оплатите.
-4. Ждите доставку прямо к вашей двери!🎉
-        `,
+    ctx.reply(mockText.start,
         Markup.keyboard([Markup.button.webApp('👉 Каталог', webAppUrl)])
     )
     // ctx.replyWithPhoto({ source: './product1.jpeg' });
@@ -98,10 +89,7 @@ bot.on(message('web_app_data'), async (ctx) => {
 - Метод оплаты: ${paymentMethod}
 - Комментарий: ${comment}
 
-Если у вас есть вопросы, не стесняйтесь обращаться к нам.
-
-С уважением,
-Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`,keyboard);
+${mockText.help}`,keyboard);
             })
             .catch(err => {
                 console.error(err);
@@ -135,7 +123,7 @@ app.post('/webhook', async (req, res) => {
     console.log('eventData', eventData);
 
     if (eventData?.event === 'payment.succeeded') {
-        const paymentId = eventData.object.id;
+        // const paymentId = eventData.object.id;
         const chatId = eventData.object.metadata.chat_id;
         const orderId = eventData.object.metadata.order_id;
         console.log('orderId', orderId);
@@ -143,13 +131,7 @@ app.post('/webhook', async (req, res) => {
         updatePayment(orderId, 'paymentSucceeded');
 
         // Send a message to your Telegram bot
-        await bot.telegram.sendMessage(chatId,
-            `
-Спасибо за вашу покупку! 🎉🎉🎉
-ID платежа: ${paymentId}
-
-Мы рады сообщить вам, что ваш заказ был успешно оформлен.
-`);
+        await bot.telegram.sendMessage(chatId, mockText.final);
         // Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.
     }
 

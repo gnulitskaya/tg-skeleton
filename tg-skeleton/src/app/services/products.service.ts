@@ -8,6 +8,7 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductsService {
+  private apiUrl = 'https://tgmini.ru:8443/';
   private jsonUrl = 'assets/products.json';
   public purchasedItems: { product: Product; quantity: number }[] = [];
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -18,6 +19,14 @@ export class ProductsService {
     return this.http.get(this.jsonUrl).pipe(
       tap(courses => {
         // this.quizStore.loadItems(courses, true);
+      })
+    );
+  }
+
+  savePayment(data: any): Observable<any>  {
+    return this.http.post(this.apiUrl + 'webapp', data).pipe(
+      tap(data => {
+        console.log(data);
       })
     );
   }

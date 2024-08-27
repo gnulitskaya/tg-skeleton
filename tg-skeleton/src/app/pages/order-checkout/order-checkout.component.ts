@@ -88,12 +88,14 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   }
 
   sendData() {
-    this.tg.sendData({
+    const data = {
       form: this.checkoutForm.value,
       price: this.productsService.totalPrice.value,
       chatId: this.tg.chatId,
       products: this.productsService.purchasedItems
-    });
+    }
+    this.productsService.savePayment(data).subscribe();
+    this.tg.sendData(data);
   }
 
   onSubmit() {

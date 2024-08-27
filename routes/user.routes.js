@@ -3,6 +3,7 @@ import userController from '../controllers/user.controller.js';
 
 const router = express.Router();
 
+router.post('/webapp', userController.savePaymentWebApp);
 router.post('/user', userController.savePayment);
 router.get('/user', userController.getAllPayments);
 router.get('/user/:id', userController.getOnePayment);
