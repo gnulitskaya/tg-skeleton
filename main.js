@@ -83,10 +83,6 @@ bot.on(message('web_app_data'), async (ctx) => {
                 ]);
 
                 ctx.reply(`
-                    Платеж создан, ссылка для оплаты: 
-                    Уважаемый(ая) ${fullName}`, keyboard);
-
-                ctx.reply(`
 Уважаемый(ая) ${fullName}
 Платеж создан, ссылка для оплаты: ${confirmationUrl}
 
