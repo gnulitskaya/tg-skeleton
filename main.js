@@ -179,6 +179,7 @@ app.get('/events', (req, res) => {
 
     // Clean up when the connection is closed
     req.on('close', () => {
+        alert('Connection closed');
         confirmationUrl = '';
         clearInterval(intervalId);
         res.end();
