@@ -75,7 +75,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 sendPayment(paymentData, 'createPayment');
-                console.log('webApp', ctx.webAppData);
+                console.log('webApp5', ctx.webAppData);
                 ctx.webApp.openLink(`${payment.confirmation.confirmation_url}`);
                 // ctx.reply(`jsdbcdj`,
                 //     Markup.keyboard([Markup.button.webApp('jscbdsj', `${payment.confirmation.confirmation_url}`)])
