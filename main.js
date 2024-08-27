@@ -55,13 +55,13 @@ bot.on(message('web_app_data'), async (ctx) => {
     const price = data?.price;
     const fullName = data?.form.fullName || 'Уважаемый клиент';
     const telegramNick = '@' + ctx.message.chat.username || 'не указан';
-    const email = data?.form.email || 'не указан';
-    const phone = data?.form.phone || 'не указан';
-    const comment = data?.form.comment || 'Нет комментариев';
-    const address = data?.form.address || 'Не указан';
-    const city = data?.form.city || 'Не указан';
-    const postalCode = data?.form.postalCode || 'Не указан';
-    const paymentMethod = data?.form.paymentMethod || 'Не указан';
+    // const email = data?.form.email || 'не указан';
+    // const phone = data?.form.phone || 'не указан';
+    // const comment = data?.form.comment || 'Нет комментариев';
+    // const address = data?.form.address || 'Не указан';
+    // const city = data?.form.city || 'Не указан';
+    // const postalCode = data?.form.postalCode || 'Не указан';
+    // const paymentMethod = data?.form.paymentMethod || 'Не указан';
 
     if (price) {
         await createPayment(price, chatId, orderId)
@@ -75,49 +75,44 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 sendPayment(paymentData, 'createPayment');
-                const confirmationUrl = `${payment.confirmation.confirmation_url}`; // Your confirmation URL
+                const confirmationUrl = `${payment.confirmation.confirmation_url}`;
 
-                // Create an inline keyboard with a button linking to the confirmation URL
                 const keyboard = Markup.inlineKeyboard([
-                    [Markup.button.url('Confirm Payment', confirmationUrl)]
+                    [Markup.button.url('Оплатить 🥳', confirmationUrl)]
                 ]);
 
-                ctx.reply('Please confirm your payment by clicking the button below:', keyboard);
+                // ctx.reply(`
+                //     Платеж создан, ссылка для оплаты: 
+                //     Уважаемый(ая) ${fullName}`, keyboard);
 
                 // console.log('webApp5', ctx.webAppData);
-                // ctx.webApp.openLink();
-                // ctx.reply(`jsdbcdj`,
-                //     Markup.keyboard([Markup.button.webApp('jscbdsj', `${payment.confirmation.confirmation_url}`)])
-                //     // Markup.inlineKeyboard([
-                //     //     Markup.button.url('createPayment', `${payment.confirmation.confirmation_url}`)
-                //     // ])
-                // )
+                ctx.webApp.openLink();
 
-                //                 ctx.reply(`
-                // Уважаемый(ая) ${fullName}
-                // Платеж создан, ссылка для оплаты: ${payment.confirmation.confirmation_url}
+                                ctx.reply(`
+                Уважаемый(ая) ${fullName}
+                Платеж создан, ссылка для оплаты: ${confirmationUrl}
 
-                // Вот детали вашей покупки:
+                Вот детали вашей покупки:
 
-                // - Товары: ${JSON.parse(products).map(item => {
-                //     const { name, price } = item.product;
-                //     const quantity = item.quantity;
-                //     return `${name} - ${price}, ${quantity} шт.`;
-                // }).join(', ')}
+                - Товары: ${JSON.parse(products).map(item => {
+                    const { name, price } = item.product;
+                    const quantity = item.quantity;
+                    return `${name} - ${price}, ${quantity} шт.`;
+                }).join(', ')}
 
-                // - Полное имя: ${fullName}
-                // - Ник в Телеграме: ${telegramNick}
-                // - Email: ${email}
-                // - Телефон: ${phone}
-                // - Адрес: ${address}, ${city}, ${postalCode}
-                // - Метод оплаты: ${paymentMethod}
-                // - Комментарий: ${comment}
+                - Полное имя: ${fullName}
+                - Ник в Телеграме: ${telegramNick}
+                - Email: ${email}
+                - Телефон: ${phone}
+                - Адрес: ${address}, ${city}, ${postalCode}
+                - Метод оплаты: ${paymentMethod}
+                - Комментарий: ${comment}
 
-                // Если у вас есть вопросы, не стесняйтесь обращаться к нам.
+                Если у вас есть вопросы, не стесняйтесь обращаться к нам.
 
-                // С уважением,
-                // Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`
-                //                 );
+                С уважением,
+                Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`
+                                );
             })
             .catch(err => {
                 console.error(err);
