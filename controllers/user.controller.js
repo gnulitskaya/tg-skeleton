@@ -1,7 +1,7 @@
 import db from '../db.js';
 
 class UserController {
-    async createPayment(req, res) {
+    async savePayment(req, res) {
         console.log('newUser', req);
         // const { status, full_name, telegram_nick, amount, currency, order_id, comment, address, payment_method, chat_id } = req;
 
