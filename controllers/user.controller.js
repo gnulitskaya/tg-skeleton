@@ -4,31 +4,35 @@ class UserController {
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req.body);
         // if (price) {
-        //     await createPayment(price, chatId, orderId)
-        //         .then(payment => {
-        //             const paymentData = {
-        //                 price: price,
-        //                 form: data?.form,
-        //                 products,
-        //                 chatId,
-        //                 orderId,
-        //                 telegramNick
-        //             }
-        //             // savePayment(paymentData, 'createPayment');
-        //             this.confirmationUrl = `${payment.confirmation.confirmation_url}`;
-        //             console.log('this.confirmationUrl', this.confirmationUrl);
-        //         })
-        //         .catch(err => {
-        //             console.error(err);
-        //         });
-        // } 
-        return res.json(req.body);
+        try {
+            const payment = await createPayment(price, chatId, orderId);
+
+            const paymentData = {
+                price: price,
+                form: data?.form,
+                products,
+                chatId,
+                orderId,
+                telegramNick
+            };
+
+            // Сохраните данные о платеже, если это необходимо
+            // await savePayment(paymentData, 'createPayment');
+
+            this.confirmationUrl = `${ payment.confirmation.confirmation_url }`;
+            console.log('this.confirmationUrl', this.confirmationUrl);
+
+            return res.json(paymentData); // Возвращаем данные о платеже
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Ошибка при создании платежа' });
+        }
     }
     async savePayment(req, res) {
         console.log('newUser', req);
         // const { status, full_name, telegram_nick, amount, currency, order_id, comment, address, payment_method, chat_id } = req;
 
-        const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, products, amount, currency, order_id, comment, address, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', 
+        const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, products, amount, currency, order_id, comment, address, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
             [req.status, req.full_name, req.telegram_nick, req.products, req.amount, req.currency, req.order_id, req.comment, req.address, req.payment_method, req.chat_id]);
 
         // res.json(newUser.rows[0]);

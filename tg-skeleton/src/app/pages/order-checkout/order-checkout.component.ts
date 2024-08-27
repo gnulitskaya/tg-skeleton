@@ -84,7 +84,13 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
       chatId: this.tg.chatId,
       products: this.productsService.purchasedItems
     }
-    this.productsService.savePayment(data).subscribe();
+    this.productsService.savePayment(data)
+    .pipe(
+      tap(() => {
+        this.connect();
+      })
+    )
+    .subscribe();
     this.tg.sendData(data);
   }
 
