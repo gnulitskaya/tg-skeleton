@@ -61,7 +61,7 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.connect();
+    // this.connect();
     this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
     this.tg.MainButton.onClick(this.sendData);
