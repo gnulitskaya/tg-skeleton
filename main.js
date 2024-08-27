@@ -86,7 +86,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                 //     Уважаемый(ая) ${fullName}`, keyboard);
 
                 // console.log('webApp5', ctx.webAppData);
-                ctx.webApp.openLink();
+                // ctx.webApp.openLink();
 
                                 ctx.reply(`
                 Уважаемый(ая) ${fullName}
@@ -111,8 +111,8 @@ bot.on(message('web_app_data'), async (ctx) => {
                 Если у вас есть вопросы, не стесняйтесь обращаться к нам.
 
                 С уважением,
-                Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`
-                                );
+                Ваша команда [НАЗВАНИЕ КОМПАНИИ]🌸`,
+                keyboard);
             })
             .catch(err => {
                 console.error(err);
