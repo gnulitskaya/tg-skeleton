@@ -1,4 +1,5 @@
 import db from '../db.js';
+import createPayment from '../scripts/create-payment.js';
 
 class UserController {
     async savePaymentWebApp(req, res) {
