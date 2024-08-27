@@ -173,15 +173,10 @@ app.get('/events', (req, res) => {
     // Send an event every second
     const intervalId = setInterval(() => {
         const data = { link: confirmationUrl, timestamp: new Date() };
-        // res.write(`data: ${data}`);
         res.write(`data: ${JSON.stringify(data)}\n\n`);
     }, 1000);
 
-    // Clean up when the connection is closed
     req.on('close', () => {
-        // alert('Connection closed');
-        console.log('Connection closed', confirmationUrl);
-        confirmationUrl = '';
         clearInterval(intervalId);
         res.end();
     });
