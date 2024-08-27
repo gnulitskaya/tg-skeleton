@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TelegramService } from '../../services/telegram.service';
 import { ProductsService } from '../../services/products.service';
 import { SseService } from '../../services/sse.service';
-import { Subscription } from 'rxjs';
+import { Subscription, tap } from 'rxjs';
 @Component({
   selector: 'app-order-checkout',
   standalone: true,
@@ -62,15 +62,6 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this.sseService.connect();
-    // this.subscription = this.sseService.getEvents().subscribe(event => {
-    //   this.link = event.link;
-    //   if(event.link !== '') {
-    //     window.location.href = event.link;
-    //   }
-    //   this.events.push(event);
-    // });
-
     this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
     this.tg.MainButton.onClick(this.sendData);
@@ -93,8 +84,25 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
       chatId: this.tg.chatId,
       products: this.productsService.purchasedItems
     }
-    this.productsService.savePayment(data).subscribe();
+    this.productsService.savePayment(data)
+      .pipe(
+        tap(x => {
+          this.connect();
+        })
+      )
+      .subscribe();
     this.tg.sendData(data);
+  }
+
+  connect() {
+    this.sseService.connect();
+    this.subscription = this.sseService.getEvents().subscribe(event => {
+      this.link = event.link;
+      if (event.link !== '') {
+        window.location.href = event.link;
+      }
+      this.events.push(event);
+    });
   }
 
   test() {

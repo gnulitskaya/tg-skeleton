@@ -63,7 +63,7 @@ bot.on(message('web_app_data'), async (ctx) => {
                     telegramNick
                 }
                 savePayment(paymentData, 'createPayment');
-                confirmationUrl = `${payment.confirmation.confirmation_url}`;
+                // confirmationUrl = `${payment.confirmation.confirmation_url}`;
 
                 const keyboard = Markup.inlineKeyboard([
                     [Markup.button.url('Оплатить 🥳', confirmationUrl)]
@@ -107,7 +107,7 @@ app.get('/events', (req, res) => {
 
     // Send an event every second
     const intervalId = setInterval(() => {
-        const data = { link: confirmationUrl, timestamp: new Date() };
+        const data = { link: userController.confirmationUrl, timestamp: new Date() };
         res.write(`data: ${JSON.stringify(data)}\n\n`);
     }, 1000);
 
