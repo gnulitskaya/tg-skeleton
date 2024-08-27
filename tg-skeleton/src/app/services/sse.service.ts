@@ -20,8 +20,8 @@ export class SseService {
     };
 
     this.eventSource.onerror = (error) => {
-      alert(error);
-      console.error('EventSource failed:', error);
+      alert('errrrrrrrr');
+      // console.error('EventSource failed:', error);
       this.eventSource.close();
     };
   }
