@@ -10,8 +10,8 @@ class UserController {
             const payment = await createPayment(price, chatId, orderId);
 
             const paymentData = {
-                price: price,
-                form: data?.form,
+                price,
+                form,
                 products,
                 chatId,
                 orderId,
