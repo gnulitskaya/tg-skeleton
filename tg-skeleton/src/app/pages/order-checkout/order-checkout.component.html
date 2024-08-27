@@ -1,5 +1,6 @@
 <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
   <h2>Ваш заказ:</h2>
+  {{events}}
   <ul>
     <li *ngFor="let item of productsService.purchasedItems">
       {{ item.product.name }} - {{ item.quantity }} шт.
