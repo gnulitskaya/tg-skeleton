@@ -86,9 +86,6 @@ bot.on(message('web_app_data'), async (ctx) => {
                     Платеж создан, ссылка для оплаты: 
                     Уважаемый(ая) ${fullName}`, keyboard);
 
-                console.log('webApp5', ctx.webAppData);
-                ctx.webApp.openLink();
-
                 ctx.reply(`
 Уважаемый(ая) ${fullName}
 Платеж создан, ссылка для оплаты: ${confirmationUrl}
