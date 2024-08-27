@@ -1,12 +1,8 @@
 import db from '../db.js';
-import createPayment from './scripts/create-payment.js';
 
 class UserController {
-    static confirmationUrl = '';
-
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req.body);
-        const { price, data, products, chatId, orderId, telegramNick } = req.body;
         // if (price) {
         //     await createPayment(price, chatId, orderId)
         //         .then(payment => {
