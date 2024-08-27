@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 async function createPayment(price, chatId, orderId) {
 
     console.log(`createPayment`);

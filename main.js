@@ -13,7 +13,6 @@ var corsOptions = {
 
 import express from 'express';
 import cors from 'cors';
-import axios from 'axios';
 import https from 'https';
 import fs from 'fs';
 
