@@ -4,7 +4,7 @@ import userController from './controllers/user.controller.js';
 import router from './routes/user.routes.js';
 
 var corsOptions = {
-    origin: 'https://tgminiapp-ee5d4.web.app',
+    origin: ['https://tgmini.ru', 'https://tgminiapp-ee5d4.web.app', 'https://api.yookassa.ru/v3/payments'],
     methods: ['GET','POST','PUT','DELETE','PATCH'], // разрешенные методы
     credentials: true, // Разрешает использование учетных данных (куки, авторизация и т.д.)
     optionsSuccessStatus: 200

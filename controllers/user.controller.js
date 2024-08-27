@@ -8,7 +8,7 @@ class UserController {
         const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, products, amount, currency, order_id, comment, address, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', 
             [req.status, req.full_name, req.telegram_nick, req.products, req.amount, req.currency, req.order_id, req.comment, req.address, req.payment_method, req.chat_id]);
 
-        res.status(201).json(newUser.rows[0]);
+        res.json(newUser.rows[0]);
     }
     async getAllPayments(req, res) {
         const allPayments = await db.query('SELECT * FROM payments');
