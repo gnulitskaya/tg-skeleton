@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
       .pipe(
         tap((data) => {
           alert('Payment created successfully:');
-          window.location.href = data.confirmation.confirmation_url;
+          // window.location.href = data.confirmation.confirmation_url;
           // this.route.navigateByUrl(data.confirmation.confirmation_url);
         }),
         catchError((err) => {
