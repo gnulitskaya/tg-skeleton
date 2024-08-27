@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,6 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { TelegramService } from '../../services/telegram.service';
 import { ProductsService } from '../../services/products.service';
+import { SseService } from '../../services/sse.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-order-checkout',
   standalone: true,
@@ -14,11 +16,14 @@ import { ProductsService } from '../../services/products.service';
   templateUrl: './order-checkout.component.html',
   styleUrls: ['./order-checkout.component.css']
 })
-export class OrderCheckoutComponent implements OnInit {
+export class OrderCheckoutComponent implements OnInit, OnDestroy {
   checkoutForm: FormGroup;
+  events: any[] = [];
+  private subscription!: Subscription;
 
   constructor(private fb: FormBuilder, private tg: TelegramService,
-    public productsService: ProductsService
+    public productsService: ProductsService,
+    private sseService: SseService
   ) {
     this.sendData = this.sendData.bind(this);
     this.checkoutForm = this.fb.group({
@@ -31,6 +36,11 @@ export class OrderCheckoutComponent implements OnInit {
       postalCode: ['', Validators.required],
       paymentMethod: ['', Validators.required]
     });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+    this.sseService.disconnect();
   }
 
   fillTestData() {
@@ -51,6 +61,11 @@ export class OrderCheckoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.sseService.connect();
+    this.subscription = this.sseService.getEvents().subscribe(event => {
+      this.events.push(event);
+    });
+
     this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
     this.tg.MainButton.onClick(this.sendData);

@@ -164,6 +164,24 @@ async function createPayment(price, chatId, orderId) {
     return response.data;
 }
 
+app.get('/events', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // Send an event every second
+    const intervalId = setInterval(() => {
+        const data = { message: 'Hello from server!', timestamp: new Date() };
+        res.write(`data: ${JSON.stringify(data)}`);
+    }, 1000);
+
+    // Clean up when the connection is closed
+    req.on('close', () => {
+        clearInterval(intervalId);
+        res.end();
+    });
+});
+
 app.post('/webhook', async (req, res) => {
     const eventData = req.body;
     console.log('eventData', eventData);
@@ -182,7 +200,7 @@ app.post('/webhook', async (req, res) => {
 Спасибо за вашу покупку! 🎉🎉🎉
 ID платежа: ${paymentId}
 
-Мы рады сообщить вам, что ваша заказ был успешно оформлен.
+Мы рады сообщить вам, что ваш заказ был успешно оформлен.
 `);
         // Платеж ${paymentId} на сумму ${amount} ${currency} успешно обработан.
     }
