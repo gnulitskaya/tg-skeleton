@@ -23,7 +23,7 @@ class UserController {
             };
 
             // Сохраните данные о платеже, если это необходимо
-            await savePayment({
+            await UserController.savePayment({
                 status: 'createPayment',
                 full_name: form?.fullName,
                 telegram_nick: telegramNick,
