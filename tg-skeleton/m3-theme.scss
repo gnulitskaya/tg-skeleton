@@ -187,4 +187,6 @@ $tg-skeleton-theme: mat.define-theme((
   --mdc-outlined-text-field-error-hover-outline-color: var(--tg-theme-text-color);
   --mdc-outlined-text-field-hover-outline-color: var(--tg-theme-text-color);
   --mdc-outlined-text-field-hover-label-text-color: var(--tg-theme-text-color);
+  --mat-select-panel-background-color: var(--tg-theme-header-bg-color);
+  --mat-option-selected-state-layer-color: var(--tg-theme-hint-color);
 }

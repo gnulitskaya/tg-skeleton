@@ -9,7 +9,7 @@ class UserController {
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req.body);
         const { price, form, products, chatId, orderId, telegramNick } = req.body;
-        // if (price) {
+
         try {
             const payment = await createPayment(price, chatId, orderId, 'https://tgminiapp-ee5d4.web.app/confirm');
 
@@ -23,10 +23,8 @@ class UserController {
             };
 
             // Сохраните данные о платеже, если это необходимо
-            // await savePayment(paymentData, 'createPayment');
-            console.log('this.confirmationUrl1', UserController.confirmationUrl);
+            await savePayment(paymentData, 'createPayment');
             UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
-            console.log('this.confirmationUrl2', UserController.confirmationUrl);
 
             return res.json(paymentData); // Возвращаем данные о платеже
         } catch (err) {

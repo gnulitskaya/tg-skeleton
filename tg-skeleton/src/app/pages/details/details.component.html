@@ -1,0 +1,33 @@
+<div class="product-image">
+  <img [src]="product?.imageUrl" [alt]="product?.name">
+</div>
+<div class="product-details">
+  <h3>{{product?.name}}</h3>
+  <p class="price">Цена: {{product?.price}} ₽</p>
+  <div class="counter">
+    <button class="add-button" (click)="remove(product)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
+      </svg>
+    </button>
+    <span>{{product?.counter}}</span>
+    <button class="add-button" (click)="add(product)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path
+          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+      </svg>
+    </button>
+  </div>
+  <div class="size-selection">
+    <label for="size">Выберите размер:</label>
+    <select id="size">
+      <option value="40">40</option>
+      <option value="41">41</option>
+      <option value="42">42</option>
+      <option value="43">43</option>
+      <option value="44">44</option>
+    </select>
+  </div>
+  <p class="description">{{product?.description}}</p>
+</div>

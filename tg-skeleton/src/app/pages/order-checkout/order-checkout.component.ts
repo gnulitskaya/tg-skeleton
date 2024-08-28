@@ -21,7 +21,7 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   events: any[] = [];
   private subscription!: Subscription;
 
-  constructor(private fb: FormBuilder, private tg: TelegramService,
+  constructor(private fb: FormBuilder, public tg: TelegramService,
     public productsService: ProductsService,
     private sseService: SseService
   ) {
@@ -92,6 +92,7 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
     )
     .subscribe();
     this.tg.sendData(data);
+    this.tg.MainButton.hide();
   }
 
   connect() {

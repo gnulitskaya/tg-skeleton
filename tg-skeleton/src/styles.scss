@@ -27,3 +27,36 @@ body {
   color: var(--tg-theme-text-color);
   background-color: var(--tg-theme-bg-color);
 }
+
+
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  // padding: 1rem;
+  padding: 5px;
+  width: 100%;
+  min-height: 40px;
+  border-radius: 15px;
+  /* rounded-md */
+  background-color: #f0f0f0;
+  /* замените на ваш цвет */
+  color: #333;
+  /* замените на ваш цвет текста */
+  border: none;
+  cursor: pointer;
+  svg{
+      width: 18px;
+      height: 18px;
+  }
+
+  span {
+      margin-right: 10px;
+  }
+}
+
+.add-button:hover {
+  background-color: rgba(240, 240, 240, 0.8);
+  /* hover:bg-secondary/80 */
+}

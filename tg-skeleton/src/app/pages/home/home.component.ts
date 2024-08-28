@@ -37,12 +37,12 @@ export class HomeComponent implements OnInit {
     // this.tg.MainButton.onClick(() => {
     //   return this.makePayment();
     // })
+    // this.tg.showAlert();
     this.tg.MainButton.onClick( () => this.router.navigateByUrl('/order'));
-    this.productsService.getAllCourses()
+    this.productsService.getAllProducts()
       .pipe(
         tap((data) => {
           this.categories = data.categories;
-
           console.log('data', data);
         })
       )

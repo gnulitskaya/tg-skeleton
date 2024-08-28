@@ -3,3 +3,62 @@ form {
     flex-direction: column;
     gap: 10px;
 }
+.cart {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: var(--tg-theme-section-bg-color);
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.title {
+    margin-bottom: 16px;
+}
+
+.cart-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center; /* Центрируем элементы по вертикали */
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.item-image {
+    width: 100px; /* Ширина изображения */
+    object-fit: cover; /* Обеспечивает правильное отображение изображения */
+    margin-right: 12px; /* Отступ между изображением и текстом */
+    border-radius: 16px;
+}
+
+.item-price {
+    margin-top: 10px;
+}
+
+.item-details {
+    flex-grow: 1; /* Позволяет тексту занимать оставшееся пространство */
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-quantity {
+    color: var(--tg-theme-hint-color);
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-weight: bold;
+    color: var(--tg-theme-accent-text-color);
+}

@@ -15,7 +15,7 @@ export class ProductsService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCourses(): Observable<any> {
+  getAllProducts(): Observable<any> {
     return this.http.get(this.jsonUrl).pipe(
       tap(courses => {
         // this.quizStore.loadItems(courses, true);

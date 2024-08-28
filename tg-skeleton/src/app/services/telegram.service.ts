@@ -20,9 +20,13 @@ export class TelegramService {
   constructor(@Inject(DOCUMENT) private _document: any) {
     this.window = this._document.defaultView;
     this.tg = this.window.Telegram.WebApp;
+    console.log(this.tg);
     this.chatId = this.window.Telegram.WebApp.initData;
-
   }
+
+  // showAlert(): any {
+  //   return this.tg.showAlert(`Добро пожаловать, .`);
+  // }
 
   get MainButton(): TgButton {
     return this.tg.MainButton;

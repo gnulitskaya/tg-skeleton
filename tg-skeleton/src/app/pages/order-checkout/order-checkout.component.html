@@ -1,11 +1,26 @@
 <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-  <h2>Ваш заказ:</h2>
-  <ul>
-    <li *ngFor="let item of productsService.purchasedItems">
-      {{ item.product.name }} - {{ item.quantity }} шт.
-    </li>
-  </ul>
-  <h5>Сумма: {{productsService.totalPrice | async}}</h5>
+  <div class="cart">
+    <h2>Ваш заказ:</h2>
+    <ul class="cart-items">
+      <li class="cart-item" *ngFor="let item of productsService.purchasedItems">
+        <img class="item-image" [src]="item.product.imageUrl" alt="{{ item.product.name }}">
+        <div class="cart-inner">
+          <div class="item-details">
+            <span class="item-name">{{ item.product.name }}</span>
+            <span class="item-quantity"> - {{ item.quantity }} шт.</span>
+          </div>
+          <div class="item-price">{{item.product.price}} ₽</div>
+        </div>
+      </li>
+    </ul>
+    <div class="total">
+      <span>Итого:</span>
+      <span class="total-price">{{ productsService.totalPrice | async }} ₽</span>
+    </div>
+  </div>
+
+  <h2 class="title">Оформление заказа:</h2>
+
   <mat-form-field appearance="outline">
     <mat-label>ФИО</mat-label>
     <input matInput formControlName="fullName" required>
@@ -53,7 +68,8 @@
     <mat-label>Способ оплаты</mat-label>
     <mat-select formControlName="paymentMethod" required>
       <mat-option value="creditCard">Кредитной картой (Visa, Mastercard, МИР)</mat-option>
-      <mat-option value="cashOnDelivery">Наличными при получении (только самовывоз или доставка курьером магазина в г. Москва)</mat-option>
+      <mat-option value="cashOnDelivery">Наличными при получении (только самовывоз или доставка курьером магазина в г.
+        Москва)</mat-option>
     </mat-select>
     <mat-error *ngIf="checkoutForm.get('paymentMethod')?.hasError('required')">Выберите способ оплаты</mat-error>
   </mat-form-field>
@@ -65,7 +81,7 @@
 
   <button mat-raised-button color="primary" (click)="fillTestData()">Заполнить</button>
 
-  <button class="add-button" (click)="test()">
+  <!-- <button class="add-button" (click)="test()">
     <span>Оплатить</span> {{productsService.totalPrice | async}}
-  </button>
+  </button> -->
 </form>
