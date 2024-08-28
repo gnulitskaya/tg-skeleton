@@ -2,23 +2,9 @@ import db from '../db.js';
 import createPayment from '../scripts/create-payment.js';
 
 class UserController {
-    constructor() {
-        this.savePaymentWebApp = this.savePaymentWebApp.bind(this);
-        this.savePayment = this.savePayment.bind(this);
-    }
-
     static confirmationUrl = '';
     getConfirmationUrl() {
         return UserController.confirmationUrl;
-    }
-    async savePayment(req, res) {
-        console.log('newUser', req);
-        // const { status, full_name, telegram_nick, amount, currency, order_id, comment, address, payment_method, chat_id } = req;
-
-        const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, products, amount, currency, order_id, comment, address, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
-            [req.status, req.full_name, req.telegram_nick, req.products, req.amount, req.currency, req.order_id, req.comment, req.address, req.payment_method, req.chat_id]);
-
-        // res.json(newUser.rows[0]);
     }
     async savePaymentWebApp(req, res) {
         console.log('savePaymentWebApp', req.body);
@@ -37,27 +23,7 @@ class UserController {
             };
 
             // Сохраните данные о платеже, если это необходимо
-            // await UserController.savePayment({
-            //     status: 'createPayment',
-            //     full_name: form?.fullName,
-            //     telegram_nick: telegramNick,
-            //     products: products,
-            //     amount: price,
-            //     currency: 'RUB',
-            //     order_id: orderId,
-            //     comment: form?.comment,
-            //     address: form?.address,
-            //     payment_method: form?.paymentMethod,
-            //     chat_id: chatId,
-            // });
-            try {
-                // Вызываем savePayment и передаем req и res
-                await this.savePayment(req.body, res);
-            } catch (error) {
-                console.error('Error in savePaymentWebApp:', error);
-                res.status(500).json({ error: 'Internal Server Error' });
-            }
-    
+            // await savePayment(paymentData, 'createPayment');
             UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
 
             return res.json(paymentData); // Возвращаем данные о платеже
@@ -65,6 +31,15 @@ class UserController {
             console.error(err);
             return res.status(500).json({ error: 'Ошибка при создании платежа' });
         }
+    }
+    async savePayment(req, res) {
+        console.log('newUser', req);
+        // const { status, full_name, telegram_nick, amount, currency, order_id, comment, address, payment_method, chat_id } = req;
+
+        const newUser = await db.query('INSERT INTO payments (status, full_name, telegram_nick, products, amount, currency, order_id, comment, address, payment_method, chat_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *',
+            [req.status, req.full_name, req.telegram_nick, req.products, req.amount, req.currency, req.order_id, req.comment, req.address, req.payment_method, req.chat_id]);
+
+        // res.json(newUser.rows[0]);
     }
     async getAllPayments(req, res) {
         const allPayments = await db.query('SELECT * FROM payments');
