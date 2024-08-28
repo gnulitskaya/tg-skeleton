@@ -23,7 +23,19 @@ class UserController {
             };
 
             // Сохраните данные о платеже, если это необходимо
-            await savePayment(paymentData, 'createPayment');
+            await savePayment({
+                status: 'createPayment',
+                full_name: form?.fullName,
+                telegram_nick: telegramNick,
+                products: products,
+                amount: price,
+                currency: 'RUB',
+                order_id: orderId,
+                comment: form?.comment,
+                address: form?.address,
+                payment_method: form?.paymentMethod,
+                chat_id: chatId,
+            });
             UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
 
             return res.json(paymentData); // Возвращаем данные о платеже
