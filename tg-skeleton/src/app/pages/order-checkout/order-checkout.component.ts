@@ -91,7 +91,7 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe();
-    this.tg.sendData(data);
+    // this.tg.sendData(data);
     this.tg.MainButton.hide();
   }
 
