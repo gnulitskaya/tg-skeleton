@@ -23,6 +23,7 @@ class UserController {
             };
 
             // Сохраните данные о платеже, если это необходимо
+            console.log('jhdsbcjhdsbchdjc');
             await UserController.savePayment({
                 status: 'createPayment',
                 full_name: form?.fullName,
@@ -36,6 +37,7 @@ class UserController {
                 payment_method: form?.paymentMethod,
                 chat_id: chatId,
             });
+
             UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
 
             return res.json(paymentData); // Возвращаем данные о платеже
