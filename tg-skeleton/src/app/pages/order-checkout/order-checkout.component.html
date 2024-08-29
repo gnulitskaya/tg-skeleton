@@ -11,7 +11,7 @@
             <span class="item-quantity"> - {{ item.product.quantity }} шт.</span>
           </div>
           <div class="item-price">{{item.product.price}} ₽</div>
-          <div class="product-sizes">
+          <div *ngIf="item.product.size" class="product-sizes">
             <span>{{item.product.size}}</span>
           </div>
         </div>
