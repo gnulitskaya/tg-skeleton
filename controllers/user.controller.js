@@ -22,7 +22,6 @@ class UserController {
                 telegramNick
             };
 
-            // Сохраните данные о платеже, если это необходимо
             // await savePayment(paymentData, 'createPayment');
             UserController.confirmationUrl = payment.confirmation.confirmation_url; // Use this to assign the value
 
