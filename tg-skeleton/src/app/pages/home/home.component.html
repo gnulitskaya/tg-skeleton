@@ -17,7 +17,15 @@
           <p class="product-description">{{product.description}}</p>
           <div class="product-footer">
             <span class="product-price"><b>{{product.price}} ₽</b></span>
-            <ng-container *ngIf="product.counter > 0; else addButton">
+            <div class="product-sizes">
+              <span *ngFor="let size of product.availableSizes">
+                <span [ngClass]="{'active': product.size == size}" 
+                (click)="selectSize(product, size)">{{size}}</span>
+              </span>
+              <!-- <app-form-button-toggle [formControlData]="product.availableSizes"
+      formControlName="documentType"></app-form-button-toggle> -->
+            </div>
+            <ng-container *ngIf="product.quantity > 0; else addButton">
               <div class="counter">
                 <button class="add-button" (click)="remove(product)">
                   <svg xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +34,7 @@
                       d="M432 256c0 17.7-14.3 32-32 32L48 288c-17.7 0-32-14.3-32-32s14.3-32 32-32l352 0c17.7 0 32 14.3 32 32z" />
                   </svg>
                 </button>
-                <span>{{product.counter}}</span>
+                <span>{{product.quantity}}</span>
                 <button class="add-button" (click)="add(product)">
                   <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -36,7 +44,7 @@
                 </button>
               </div>
             </ng-container>
-  
+
             <ng-template #addButton>
               <button class="add-button" (click)="add(product)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -48,19 +56,17 @@
               </button>
             </ng-template>
           </div>
-  
         </div>
       </div>
     </ng-container>
-    
+
   </div>
 </div>
+
+<button [disabled]="!productsService.totalPrice.value" class="add-button btn" (click)="goToOrder()">
+  <span>Оплатить</span> {{productsService.totalPrice | async}}
+</button>
 
 <footer>
   <h6>created by <a href="https://t.me/gnulitskaya">&#64;gnulitskaya</a></h6>
 </footer>
-
-<!-- <button class="add-button" (click)="makePayment()">
-  <span>Оплатить</span> {{productsService.totalPrice | async}}
-</button> -->
-

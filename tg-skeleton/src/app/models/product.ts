@@ -1,11 +1,12 @@
 export interface Product {
     id: number;
-    counter: number;
     name: string;
     description: string;
     price: number;
-    count?: number;
     imageUrl?: string;
+    size: string;
+    quantity: number;
+    availableSizes: string[];
 }
 
 // export interface Root {

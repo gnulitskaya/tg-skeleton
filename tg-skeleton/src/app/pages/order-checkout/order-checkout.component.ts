@@ -9,6 +9,7 @@ import { TelegramService } from '../../services/telegram.service';
 import { ProductsService } from '../../services/products.service';
 import { SseService } from '../../services/sse.service';
 import { Subscription, tap } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-order-checkout',
   standalone: true,
@@ -23,9 +24,11 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder, public tg: TelegramService,
     public productsService: ProductsService,
-    private sseService: SseService
+    private sseService: SseService,
+    private router: Router
   ) {
     this.sendData = this.sendData.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.checkoutForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -39,7 +42,9 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     this.sseService.disconnect();
   }
 
@@ -64,7 +69,12 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
     // this.connect();
     this.productsService.loadPurchasedItems();
     this.tg.MainButton.hide();
+    this.tg.BackButton.show();
+    this.tg.BackButton.onClick(this.goBack);
+
+    // if (this.checkoutForm.valid) {
     this.tg.MainButton.onClick(this.sendData);
+    // }
 
     this.checkoutForm.valueChanges.subscribe(data => {
       if (this.checkoutForm.valid) {
@@ -91,8 +101,13 @@ export class OrderCheckoutComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe();
-    // this.tg.sendData(data);
+    this.tg.sendData(data);
     this.tg.MainButton.hide();
+  }
+
+  goBack() {
+    // alert('back');
+    this.router.navigateByUrl('/');
   }
 
   connect() {

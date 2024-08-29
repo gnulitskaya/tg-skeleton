@@ -8,7 +8,7 @@
     /* text-align: center; */
     box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 2px 0px, rgba(25, 28, 33, 0.06) 0px 1px 2px 0px, rgba(0, 0, 0, 0.03) 0px 0px 0px 1px;
     border-radius: 20px;
-    border: 1px solid var(--tg-theme-hint-color);
+    // border: 1px solid var(--tg-theme-hint-color);
 }
 
 .product-inner {
@@ -45,7 +45,7 @@
 
 .product-description {
     font-size: 10px;
-    margin: 8px 0;
+    margin: 4px 0 8px 0;
     /* text-sm */
     color: #a0aec0;
     /* text-gray-400 */
@@ -227,4 +227,8 @@ footer {
     h6 {
         margin: 0;
     }
+}
+
+.btn {
+    margin-top: 20px;
 }

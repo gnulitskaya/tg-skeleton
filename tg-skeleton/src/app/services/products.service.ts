@@ -1,8 +1,8 @@
+import { Category, Product } from './../models/product';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { Product } from '../models/product';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,27 @@ import { Product } from '../models/product';
 export class ProductsService {
   private apiUrl = 'https://tgmini.ru:8443/api/';
   private jsonUrl = 'assets/products.json';
-  public purchasedItems: { product: Product; quantity: number }[] = [];
+  public purchasedItems: { product: Product }[] = [];
   public totalPrice: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) { }
 
   getAllProducts(): Observable<any> {
     return this.http.get(this.jsonUrl).pipe(
-      tap(courses => {
-        // this.quizStore.loadItems(courses, true);
+      map((data: any) => {
+        const updatedData = {
+          ...data,
+          categories: data.categories.map((category: Category) => ({
+            ...category,
+            products: category.products.map(product => ({
+              ...product,
+              quantity: 0,
+              size: product.availableSizes ? product.availableSizes[0] : null,
+            }))
+          }))
+        };
+
+        return updatedData.categories;
       })
     );
   }
@@ -33,12 +45,12 @@ export class ProductsService {
 
   updatePurchasedItems(product: Product) {
     const existingItem = this.purchasedItems.find(item => item.product.id === product.id);
-
+    console.log(product);
     if (existingItem) {
-      existingItem.quantity = product.counter || 0;
+      existingItem.product.quantity = product.quantity || 0;
     } else {
-      if (product.counter > 0) {
-        this.purchasedItems.push({ product, quantity: product.counter });
+      if (product.quantity > 0) {
+        this.purchasedItems.push({product});
       }
     }
 

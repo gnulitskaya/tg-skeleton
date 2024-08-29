@@ -1,0 +1,57 @@
+// @import "../../../../styles/mixins/breakpoints.scss";
+// @import "src/styles/variables";
+
+:host {
+
+  .select-type-btn-cnt {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    .select-type-btn {
+      display: flex;
+      align-items: center;
+      outline: none;
+      height: auto !important;
+      color: #272727;
+      background-color: transparent;
+      border: 1px #8F9BB3 solid;
+      border-radius: 20px;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: left;
+      transition: all 0.2s;
+
+      &.selected {
+        border: 1px #326CFD solid;
+        color: #326CFD;
+
+        &:hover {
+          cursor: default;
+          scale: 100%;
+        }
+      }
+
+      &.disabled {
+        border: 1px rgba(128, 128, 128, 0.5) solid;
+        color: rgba(128, 128, 128, 0.5);
+
+        &:hover {
+          cursor: default;
+          scale: 100%;
+        }
+      }
+
+      p {
+        padding: 0;
+        margin: 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+        scale: 103%;
+      }
+    }
+  }
+}

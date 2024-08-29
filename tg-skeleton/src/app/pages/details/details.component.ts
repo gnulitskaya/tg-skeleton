@@ -41,15 +41,15 @@ export class DetailsComponent implements OnInit {
 
   add(product: Product | null) {
     if (product) {
-      product.counter++;
+      product.quantity = 1;
       this.productsService.updatePurchasedItems(product);
       this.result();
     }
   }
 
   remove(product: Product | null) {
-    if (product && product.counter > 0) {
-      product.counter--;
+    if (product && product.quantity > 0) {
+      product.quantity--;
       this.productsService.updatePurchasedItems(product);
       this.result();
     }
@@ -67,7 +67,7 @@ export class DetailsComponent implements OnInit {
   calculateTotal(): number {
     this.totalCost = this.categories.reduce((total, category) => {
       return total + category.products.reduce((catTotal, product) => {
-        return catTotal + (product.price * (product.counter || 0));
+        return catTotal + (product.price * (product.quantity || 0));
       }, 0);
     }, 0);
 

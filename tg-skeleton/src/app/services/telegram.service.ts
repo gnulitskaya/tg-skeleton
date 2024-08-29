@@ -20,7 +20,7 @@ export class TelegramService {
   constructor(@Inject(DOCUMENT) private _document: any) {
     this.window = this._document.defaultView;
     this.tg = this.window.Telegram.WebApp;
-    console.log(this.tg);
+    // alert(this.tg.version);
     this.chatId = this.window.Telegram.WebApp.initData;
   }
 

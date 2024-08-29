@@ -23,12 +23,13 @@ h2 {
 .cart-items {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .cart-item {
     display: flex;
     align-items: center; /* Центрируем элементы по вертикали */
-    padding: 8px 0;
+    padding: 12px 0;
     border-bottom: 1px solid #eee;
 }
 
@@ -40,7 +41,7 @@ h2 {
 }
 
 .item-price {
-    margin-top: 10px;
+    margin: 8px 0 10px 0;
 }
 
 .item-details {
