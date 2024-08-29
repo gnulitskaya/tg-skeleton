@@ -7,8 +7,8 @@
         <img class="item-image" [src]="item.product.imageUrl" alt="{{ item.product.name }}">
         <div class="cart-inner">
           <div class="item-details">
-            <span class="item-name">{{ item.product.name }}</span>
-            <span class="item-quantity"> - {{ item.product.quantity }} шт.</span>
+            <div class="item-name">{{ item.product.name }}</div>
+            <div class="item-quantity">{{ item.product.quantity }} шт.</div>
           </div>
           <div class="item-price">{{item.product.price}} ₽</div>
           <div *ngIf="item.product.size" class="product-sizes">

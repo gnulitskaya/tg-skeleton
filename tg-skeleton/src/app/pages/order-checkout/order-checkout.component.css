@@ -53,6 +53,7 @@ h2 {
 }
 
 .item-quantity {
+    font-size: 14px;
     color: var(--tg-theme-hint-color);
 }
 
