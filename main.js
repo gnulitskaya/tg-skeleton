@@ -76,9 +76,8 @@ bot.on(message('web_app_data'), async (ctx) => {
 Вот детали вашей покупки:
 
 - Товары: ${JSON.parse(products).map(item => {
-    const { name, price, size } = item.product;
-    const quantity = item.quantity;
-    return `${name} - ${price}, размер ${size}, ${quantity} шт.`;
+    const { name, price, size, quantity } = item.product;
+    return `${name} - ${price} ₽, размер ${size}, ${quantity} шт.`;
 }).join(', ')}
 
 - Полное имя: ${fullName}
